@@ -23,15 +23,16 @@ jobs:
           command: |
             source venv/bin/activate
             pip install Flask
-  test:
-    docker:
-      - image: cimg/python:3.10
-    steps:
-      - checkout
-      - run: 
-          command: |
-            source venv/bin/activate
             python Flask_application.py
+  # test:
+  #   docker:
+  #     - image: cimg/python:3.10
+  #   steps:
+  #     - checkout
+  #     - run: 
+  #         command: |
+  #           source venv/bin/activate
+            
 
 
 workflows:
@@ -39,7 +40,7 @@ workflows:
   build-deploy:
     jobs:
       - build
-      - test:
-          requires:
-            - build
+      # - test:
+      #     requires:
+      #       - build
 
