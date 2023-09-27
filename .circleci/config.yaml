@@ -1,0 +1,12 @@
+version: 2.1
+jobs:
+  test:
+    docker:
+      - image: cimg/python:3.10
+    Steps:
+      - checkout
+      - run: python3 Flask_application.py
+workflows:
+  first:
+    jobs:
+      - test
