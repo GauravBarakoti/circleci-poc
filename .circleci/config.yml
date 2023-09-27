@@ -18,12 +18,20 @@ jobs:
     steps:
       - checkout
       - run: pip install Flask
+      - run: python -m venv venv
+      - run: 
+          command: |
+            source venv/bin/activate
+            pip install Flask
   test:
     docker:
       - image: cimg/python:3.10
     steps:
       - checkout
-      - run: python Flask_application.py
+      - run: 
+          command: |
+            source venv/bin/activate
+            python Flask_application.py
 
 
 workflows:
