@@ -57,7 +57,15 @@ jobs:
     machine: true
     resource_class: k8vhsqovhlv8kmbfzecxgd/docker
     steps:
-      - run: echo "Hi I'm on Runners!"
+      # - run: echo "Hi I'm on Runners!"
+      - checkout
+      - run: pip install Flask
+      - run: python -m venv venv
+      - run: 
+          command: |
+            source venv/bin/activate
+            pip install Flask
+            python Flask_application.py
 
 workflows:
   version: 2
