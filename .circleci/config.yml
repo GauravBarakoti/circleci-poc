@@ -66,8 +66,8 @@
 #             sudo docker build -t mysampleimage .
 #             sudo docker run -d mysampleimage
 
-common-env-vars: &common-env-vars
-  PASSWORD: ongraph@123
+# common-env-vars: &common-env-vars
+#   PASSWORD: ongraph@123
 
 workflows:
   version: 2
@@ -92,13 +92,13 @@ jobs:
             docker run -d mysampleimage
   runner-test:
     machine: true
-    environment: *common-env-vars
+    # environment: *common-env-vars
     resource_class: k8vhsqovhlv8kmbfzecxgd/docker
     steps:
       - checkout
       - run: 
           command: |
-            sudo su -p ${PASSWORD}
+            sudo -i
             docker build --tag mysampleimage .
             docker run -d mysampleimage
 
