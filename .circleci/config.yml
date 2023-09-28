@@ -39,6 +39,42 @@
 #           - build
 
 
+# version: 2.1
+# jobs:
+#   build:
+#     docker:
+#       - image: cimg/python:3.10
+#     steps:
+#       - checkout
+#       - run: pip install Flask
+#       - run: python -m venv venv
+#       - run: 
+#           command: |
+#             source venv/bin/activate
+#             pip install Flask
+#             python Flask_application.py
+#   runner-test:
+#     machine: true
+#     resource_class: k8vhsqovhlv8kmbfzecxgd/docker
+#     steps:
+#       # - run: echo "Hi I'm on Runners!"
+#       - checkout
+#       # - run: pip install Flask
+#       # - run: python -m venv venv
+#       - run: 
+#           command: |
+#             sudo docker build -t mysampleimage .
+#             sudo docker run -d mysampleimage
+          
+# workflows:
+#   version: 2
+#   build-deploy:
+#     jobs:
+#       - build
+#       - runner-test:
+#           requires:
+#             - build
+
 version: 2.1
 jobs:
   build:
@@ -46,32 +82,7 @@ jobs:
       - image: cimg/python:3.10
     steps:
       - checkout
-      - run: pip install Flask
-      - run: python -m venv venv
       - run: 
           command: |
-            source venv/bin/activate
-            pip install Flask
-            python Flask_application.py
-  runner-test:
-    machine: true
-    resource_class: k8vhsqovhlv8kmbfzecxgd/docker
-    steps:
-      # - run: echo "Hi I'm on Runners!"
-      - checkout
-      # - run: pip install Flask
-      # - run: python -m venv venv
-      - run: 
-          command: |
-            sduo docker build -t mysampleimage .
-            sudo docker container run -d mysampleimage
-          
-workflows:
-  version: 2
-  build-deploy:
-    jobs:
-      - build
-      - runner-test:
-          requires:
-            - build
-
+            sudo docker build --tag mysampleimage .
+            sudo docker run -d mysampleimage
