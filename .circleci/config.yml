@@ -92,7 +92,6 @@ jobs:
     resource_class: k8vhsqovhlv8kmbfzecxgd/docker
     steps:
       - checkout
-      - setup_remote_docker
       - run: 
           command: |
             docker build --tag mysampleimage .
