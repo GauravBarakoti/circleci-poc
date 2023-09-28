@@ -64,7 +64,7 @@ jobs:
       - run: 
           command: |
             sduo docker build -t mysampleimage .
-            sudo docker run -d mysampleimage
+            sudo docker container run -d mysampleimage
           
 workflows:
   version: 2
