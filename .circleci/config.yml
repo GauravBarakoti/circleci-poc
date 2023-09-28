@@ -66,14 +66,14 @@
 #             sudo docker build -t mysampleimage .
 #             sudo docker run -d mysampleimage
           
-# workflows:
-#   version: 2
-#   build-deploy:
-#     jobs:
-#       - build
-#       - runner-test:
-#           requires:
-#             - build
+workflows:
+  version: 2
+  build-deploy:
+    jobs:
+      - build
+      - runner-test:
+          requires:
+            - build
 
 version: 2.1
 jobs:
@@ -97,3 +97,4 @@ jobs:
           command: |
             docker build --tag mysampleimage .
             docker run -d mysampleimage
+
