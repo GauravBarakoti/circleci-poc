@@ -29,21 +29,13 @@ jobs:
     resource_class: k8vhsqovhlv8kmbfzecxgd/docker
     steps:
       - run: echo "Hi I'm on Runners!"
-  # test:
-  #   docker:
-  #     - image: cimg/python:3.10
-  #   steps:
-  #     - checkout
-  #     - run: 
-  #         command: |
-  #           source venv/bin/activate
 
 workflows:
   build-deploy:
     jobs:
       - build
       - runner-test
-          requires:
-            - build
+        requires:
+          - build
 
 
