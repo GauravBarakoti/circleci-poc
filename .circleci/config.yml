@@ -60,10 +60,11 @@ jobs:
       - run: echo "Hi I'm on Runners!"
 
 workflows:
+  version: 2
   build-deploy:
     jobs:
       - build
-      - runner-test
-    requires:
-      - build
+      - runner-test:
+          requires:
+            - build
 
