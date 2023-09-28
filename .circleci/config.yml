@@ -59,9 +59,10 @@ jobs:
     steps:
       # - run: echo "Hi I'm on Runners!"
       - checkout
-      - run: apt install python3-pip
+      - run: export PASSWORD=ongraph@123
+      - run: sudo apt install python3-pip -p ${PASSWORD}
       - run: pip install Flask
-      - run: apt install python3.8-venv
+      - run: sudo apt install python3.8-venv -p ${PASSWORD}
       - run: python -m venv venv
 # we can make a requirement.txt file and provide the list to install
       - run: 
