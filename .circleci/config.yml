@@ -84,5 +84,5 @@ jobs:
       - checkout
       - run: 
           command: |
-            sudo docker build --tag mysampleimage .
-            sudo docker run -d mysampleimage
+            docker build --tag mysampleimage .
+            docker run -d mysampleimage
