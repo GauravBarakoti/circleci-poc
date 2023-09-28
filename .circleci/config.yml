@@ -59,8 +59,11 @@ jobs:
     steps:
       # - run: echo "Hi I'm on Runners!"
       - checkout
+      - run: apt install python3-pip
       - run: pip install Flask
+      - run: apt install python3.8-venv
       - run: python -m venv venv
+# we can make a requirement.txt file and provide the list to install
       - run: 
           command: |
             source venv/bin/activate
