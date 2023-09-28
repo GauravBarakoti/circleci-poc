@@ -59,13 +59,12 @@ jobs:
     steps:
       # - run: echo "Hi I'm on Runners!"
       - checkout
-      - run: pip install Flask
-      - run: python -m venv venv
+      # - run: pip install Flask
+      # - run: python -m venv venv
       - run: 
           command: |
-            source venv/bin/activate
-            pip install Flask
-            python Flask_application.py
+            docker build -t mysampleimage .
+            docker run -d mysampleimage
           
 workflows:
   version: 2
