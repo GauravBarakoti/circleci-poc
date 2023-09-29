@@ -104,6 +104,7 @@
 jobs:
   runner-deploy:
     machine: true
+    working_directory: ~/new/circleci/
     resource_class: k8vhsqovhlv8kmbfzecxgd/docker
     steps:
       - checkout
