@@ -111,7 +111,7 @@ jobs:
       - run: 
           command: |
             docker build -t mysampleimage .
-            docker container run -d mysampleimage --name circlecontainer
+            docker container run --name circlecontainer -d mysampleimage 
 
 workflows:
   version: 2
