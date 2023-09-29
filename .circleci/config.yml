@@ -98,7 +98,6 @@ jobs:
       - checkout
       - run: 
           command: |
-            sudo -i
-            docker build --tag mysampleimage .
-            docker run -d mysampleimage
-
+            source venv/bin/activate
+            pip install Flask
+            python3 Flask_application.py
