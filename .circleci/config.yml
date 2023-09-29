@@ -111,14 +111,9 @@ jobs:
       - run: 
           command: |
             docker build -t mysampleimage .
-            if [ "$(docker ps --filter name=circlecontainer -aq" == null ]
-            then
-              docker container run --name circlecontainer -d mysampleimage 
-            else
-              docker container stop $(docker ps --filter name=circlecontainer -aq)
-              docker container rm $(docker ps --filter name=circlecontainer -aq)
-              docker container run --name circlecontainer -d mysampleimage 
-            fi
+            if [[ "$(docker ps --filter name=circlecontainer -aq" -ne 0 ]]; then docker container stop $(docker ps --filter name=circlecontainer -aq) ; fi
+            if [[ "$(docker ps --filter name=circlecontainer -aq" -ne 0 ]]; then               docker container rm $(docker ps --filter name=circlecontainer -aq) ; fi
+            docker container run --name circlecontainer -d mysampleimage 
 
 workflows:
   version: 2
