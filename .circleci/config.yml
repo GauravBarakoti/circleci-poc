@@ -152,6 +152,7 @@ jobs:
           command: |
             if [[ "$(sudo docker images --filter "dangling=true" -q)" != ""]]; then
               docker image rm $(sudo docker images --filter "dangling=true" -q)
+            fi
       - run: 
           command: |
             docker build -t mysampleimage .
