@@ -149,8 +149,8 @@ jobs:
       - run:
           name: Remove previous Image If Any
           command: |
-            if [[ "$(sudo docker images --filter "dangling=true" -q)" != "" ]]; then
-              docker image rm $(sudo docker images --filter "dangling=true" -q)
+            if [[ "$(docker images --filter "dangling=true" -q)" != "" ]]; then
+              docker image rm $(docker images --filter "dangling=true" -q)
             fi
       - run: 
           name: Build Docker Image
