@@ -101,29 +101,29 @@
 #             docker build --tag mysampleimage .
 #             docker run -d mysampleimage
 
-jobs:
-  runner-deploy:
-    machine: true
-    resource_class: k8vhsqovhlv8kmbfzecxgd/docker
-    working_directory: ~/my-app
-    steps:
-      - checkout
-      - run: 
-          command: |
-            docker build -t mysampleimage .
-      - when:
-          condition: >-
-            (docker ps --filter name=circlecontainer -aq) != ""
-          steps:
-            - run: docker container stop $(docker ps --filter name=circlecontainer -aq)
-            - run: docker container rm $(docker ps --filter name=circlecontainer -aq)
-      - run: docker container run --name circlecontainer -d mysampleimage
+# jobs:
+#   runner-deploy:
+#     machine: true
+#     resource_class: k8vhsqovhlv8kmbfzecxgd/docker
+#     working_directory: ~/my-app
+#     steps:
+#       - checkout
+#       - run: 
+#           command: |
+#             docker build -t mysampleimage .
+#       - when:
+#           condition: >-
+#             (docker ps --filter name=circlecontainer -aq) != ""
+#           steps:
+#             - run: docker container stop $(docker ps --filter name=circlecontainer -aq)
+#             - run: docker container rm $(docker ps --filter name=circlecontainer -aq)
+#       - run: docker container run --name circlecontainer -d mysampleimage
 
-workflows:
-  version: 2
-  build-deploy:
-    jobs:
-      - runner-deploy
+# workflows:
+#   version: 2
+#   build-deploy:
+#     jobs:
+#       - runner-deploy
 
 
             # if [[ "$(docker ps --filter name=circlecontainer -aq)" -ne 0 ]]; then docker container stop $(docker ps --filter name=circlecontainer -aq) ; fi
@@ -137,3 +137,32 @@ workflows:
               
             # fi
             # docker container run --name circlecontainer -d mysampleimage
+
+
+
+jobs:
+  runner-deploy:
+    machine: true
+    resource_class: k8vhsqovhlv8kmbfzecxgd/docker
+    working_directory: ~/my-app
+    steps:
+      - checkout
+      - run: 
+          command: |
+            docker build -t mysampleimage .
+      - run:
+          name: Stop and Remove Container
+          command: |
+            if [[ "$(docker ps --filter name=circlecontainer -aq)" != "" ]]; then
+              docker container stop $(docker ps --filter name=circlecontainer -aq)
+              docker container rm $(docker ps --filter name=circlecontainer -aq)
+            fi
+      - run: 
+          name: Run Container
+          command: docker container run --name circlecontainer -d mysampleimage
+
+workflows:
+  version: 2
+  build-deploy:
+    jobs:
+      - runner-deploy
