@@ -105,14 +105,13 @@ jobs:
   runner-deploy:
     machine: true
     resource_class: k8vhsqovhlv8kmbfzecxgd/docker
-    # working_directory: ~/my-app
+    working_directory: ~/my-app
     steps:
       - checkout
       - run: 
           command: |
             docker build -t mysampleimage .
-            docker container rm -f ${docker container ls -aq}
-            docker container run -d mysampleimage
+            docker container run -d -p 443:5000 mysampleimage
 
 workflows:
   version: 2
