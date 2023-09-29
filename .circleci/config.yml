@@ -111,7 +111,6 @@ jobs:
       - run: 
           command: |
             docker build -t mysampleimage .
-            docker container rm -f $(docker ps --filter name=circlecontainer -aq)
             docker container run --name circlecontainer -d mysampleimage 
 
 workflows:
@@ -121,3 +120,4 @@ workflows:
       - runner-deploy
 version: 2.1
 
+            # docker container rm -f $(docker ps --filter name=circlecontainer -aq)
