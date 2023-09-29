@@ -105,12 +105,12 @@ jobs:
   runner-deploy:
     machine: true
     resource_class: k8vhsqovhlv8kmbfzecxgd/docker
-    working_directory: ~/my-app
+    # working_directory: ~/my-app
     steps:
       - checkout
       - run: 
           command: |
-            docker build --tag mysampleimage .
+            docker build -t mysampleimage .
             docker run -d mysampleimage
 
 workflows:
