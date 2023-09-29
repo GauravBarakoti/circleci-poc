@@ -111,7 +111,8 @@ jobs:
       - run: 
           command: |
             docker build -t mysampleimage .
-            docker container run -d -p 443:5000 mysampleimage
+            docker container rm $(docker container ls -aq)
+            docker container run -d mysampleimage
 
 workflows:
   version: 2
