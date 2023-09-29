@@ -69,30 +69,41 @@
 # common-env-vars: &common-env-vars
 #   PASSWORD: ongraph@123
 
-workflows:
-  version: 2
-  build-deploy:
-    jobs:
-      - build
-      - runner-test:
-          requires:
-            - build
+# workflows:
+#   version: 2
+#   build-deploy:
+#     jobs:
+#       - build
+#       - runner-test:
+#           requires:
+#             - build
 
-version: 2.1
+# version: 2.1
+# jobs:
+#   build:
+#     docker:
+#       - image: docker:17.05.0-ce-git
+#     steps:
+#       - checkout
+#       - setup_remote_docker
+#       - run: 
+#           command: |
+#             docker build --tag mysampleimage .
+#             docker run -d mysampleimage
+#   runner-test:
+#     machine: true
+#     # environment: *common-env-vars
+#     resource_class: k8vhsqovhlv8kmbfzecxgd/docker
+#     steps:
+#       - checkout
+#       - run: 
+#           command: |
+#             docker build --tag mysampleimage .
+#             docker run -d mysampleimage
+
 jobs:
-  build:
-    docker:
-      - image: docker:17.05.0-ce-git
-    steps:
-      - checkout
-      - setup_remote_docker
-      - run: 
-          command: |
-            docker build --tag mysampleimage .
-            docker run -d mysampleimage
-  runner-test:
+  runner-deploy:
     machine: true
-    # environment: *common-env-vars
     resource_class: k8vhsqovhlv8kmbfzecxgd/docker
     steps:
       - checkout
@@ -100,3 +111,10 @@ jobs:
           command: |
             docker build --tag mysampleimage .
             docker run -d mysampleimage
+
+workflows:
+  version: 2
+  build-deploy:
+    jobs:
+      - runner-deploy
+version: 2.1
