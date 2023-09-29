@@ -112,11 +112,12 @@ jobs:
           command: |
             docker build -t mysampleimage .
       - when:
-          condition: (docker ps --filter name=circlecontainer -aq) -ne null
+          condition: >-
+            (docker ps --filter name=circlecontainer -aq) != ""
           steps:
             - run: docker container stop $(docker ps --filter name=circlecontainer -aq)
             - run: docker container rm $(docker ps --filter name=circlecontainer -aq)
-      -run: docker container run --name circlecontainer -d mysampleimage
+      - run: docker container run --name circlecontainer -d mysampleimage
 
 workflows:
   version: 2
