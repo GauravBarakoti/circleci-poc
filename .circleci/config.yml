@@ -111,8 +111,8 @@ jobs:
       - run: 
           command: |
             docker build -t mysampleimage .
-            docker container rm -f $(docker ps --filter image=mysampleimage -q)
-            docker container run -d mysampleimage
+            docker container rm -f $(docker ps --filter name=circlecontainer -aq)
+            docker container run -d mysampleimage --name circlecontainer
 
 workflows:
   version: 2
