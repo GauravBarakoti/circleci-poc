@@ -139,7 +139,6 @@
             # docker container run --name circlecontainer -d mysampleimage
 
 
-
 jobs:
   runner-deploy:
     machine: true
@@ -150,12 +149,12 @@ jobs:
       - run:
           name: Remove previous Image If Any
           command: |
-            if [[ "$(sudo docker images --filter "dangling=true" -q)" != ""]]; then
+            if [[ "$(sudo docker images --filter "dangling=true" -q)" != "" ]]; then
               docker image rm $(sudo docker images --filter "dangling=true" -q)
             fi
       - run: 
-          command: |
-            docker build -t mysampleimage .
+          name: Build Docker Image
+          command: docker build -t mysampleimage .
       - run:
           name: Stop and Remove Container
           command: |
