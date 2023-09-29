@@ -98,7 +98,5 @@ jobs:
       - checkout
       - run: 
           command: |
-            python -m venv venv
-            source venv/bin/activate
-            pip install Flask
-            python3 Flask_application.py
+            docker build --tag mysampleimage .
+            docker run -d mysampleimage
