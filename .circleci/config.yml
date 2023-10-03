@@ -182,6 +182,9 @@ jobs:
       - run: 
           name: Run Container 2
           command: docker container run --name second -d -p 8082:5000 mysampleimage:${CIRCLE_BUILD_NUM}
+      - run:
+          name: Apache2 reload
+          command: sudo systemct reload apache2
 
 workflows:
   version: 2
