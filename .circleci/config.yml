@@ -156,15 +156,28 @@ jobs:
           name: Build Docker Image
           command: docker build -t mysampleimage .
       - run:
-          name: Stop and Remove Container
+          name: Stop and Remove Container first
           command: |
             if [[ "$(docker ps --filter name=circlecontainer -aq)" != "" ]]; then
               docker container stop $(docker ps --filter name=circlecontainer -aq)
               docker container rm $(docker ps --filter name=circlecontainer -aq)
             fi
       - run: 
-          name: Run Container
+          name: Run Container 1
           command: docker container run --name circlecontainer -d mysampleimage
+      - run:
+          name: Waiting to stable the app
+          command: sleep 70
+      - run:
+          name: Stop and Remove Container Second
+          command: |
+            if [[ "$(docker ps --filter name=circlecontainertwo -aq)" != "" ]]; then
+              docker container stop $(docker ps --filter name=circlecontainertwo -aq)
+              docker container rm $(docker ps --filter name=circlecontainertwo -aq)
+            fi
+      - run: 
+          name: Run Container 2
+          command: docker container run --name circlecontainertwo -d mysampleimage
 
 workflows:
   version: 2
