@@ -162,7 +162,7 @@ jobs:
           command: |
             if [[ "$(docker ps --filter name=first -aq)" != "" ]]; then
               docker container stop $(docker ps --filter name=first -aq)
-              systemctl reload apache2
+              sudo systemctl reload apache2
               sleep 15
               docker container rm $(docker ps --filter name=first -aq)
             fi
