@@ -162,7 +162,7 @@ jobs:
           command: |
             if [[ "$(docker ps --filter name=first -aq)" != "" ]]; then
               docker container stop $(docker ps --filter name=first -aq)
-              sleep 5
+              sleep 15
               docker container rm $(docker ps --filter name=first -aq)
             fi
       - run: 
@@ -176,7 +176,7 @@ jobs:
           command: |
             if [[ "$(docker ps --filter name=second -aq)" != "" ]]; then
               docker container stop $(docker ps --filter name=second -aq)
-              sleep 5
+              sleep 15
               docker container rm $(docker ps --filter name=second -aq)
             fi
       - run: 
