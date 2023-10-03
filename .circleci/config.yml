@@ -162,14 +162,13 @@ jobs:
           command: |
             if [[ "$(docker ps --filter name=first -aq)" != "" ]]; then
               docker container stop $(docker ps --filter name=first -aq)
-              sudo systemctl reload apache2
+              systemctl reload apache2
               sleep 15
               docker container rm $(docker ps --filter name=first -aq)
             fi
       - run: 
           name: Run Container 1
           command: docker container run --name first -d -p 8081:5000 mysampleimage:${CIRCLE_BUILD_NUM}
-      - run: sudo systemctl reload apache2
       - run:
           name: Waiting to stable the app
           command: sleep 15
@@ -178,15 +177,12 @@ jobs:
           command: |
             if [[ "$(docker ps --filter name=second -aq)" != "" ]]; then
               docker container stop $(docker ps --filter name=second -aq)
-              sudo systemctl reload apache2
               sleep 15
               docker container rm $(docker ps --filter name=second -aq)
             fi
       - run: 
           name: Run Container 2
           command: docker container run --name second -d -p 8082:5000 mysampleimage:${CIRCLE_BUILD_NUM}
-
-      -run: sudo systemctl reload apache2
           
 
 workflows:
