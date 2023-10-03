@@ -155,7 +155,7 @@ jobs:
             fi
       - run: 
           name: Build Docker Image
-          command: docker build -t mysampleimage .
+          command: docker build -t mysampleimage:${CIRCLE_BUILD_NUM} .
           # fix this with image tag and keep 2 previous version of the image
       - run:
           name: Stop and Remove Container first
