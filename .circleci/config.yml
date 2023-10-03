@@ -1,4 +1,4 @@
-# version: 2.1
+version: 2.1
 # jobs:
   # test:
   #   docker:
@@ -144,6 +144,7 @@ jobs:
     machine: true
     resource_class: k8vhsqovhlv8kmbfzecxgd/docker
     working_directory: ~/my-app
+    # will be available in the circleci user
     steps:
       - checkout
       - run:
@@ -155,6 +156,7 @@ jobs:
       - run: 
           name: Build Docker Image
           command: docker build -t mysampleimage .
+          # fix this with image tag and keep 2 previous version of the image
       - run:
           name: Stop and Remove Container first
           command: |
@@ -164,7 +166,7 @@ jobs:
             fi
       - run: 
           name: Run Container 1
-          command: docker container run --name circlecontainer -d mysampleimage
+          command: docker container run --name circlecontainer -d -p 8081:5000 mysampleimage
       - run:
           name: Waiting to stable the app
           command: sleep 10
@@ -177,7 +179,7 @@ jobs:
             fi
       - run: 
           name: Run Container 2
-          command: docker container run --name circlecontainertwo -d mysampleimage
+          command: docker container run --name circlecontainertwo -d -p 8082:5000 mysampleimage
 
 workflows:
   version: 2
