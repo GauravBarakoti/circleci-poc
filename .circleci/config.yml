@@ -168,7 +168,8 @@ jobs:
             fi
       - run: 
           name: Run Container 1
-          command: docker container run --name first -d -p 8081:5000 mysampleimage:${CIRCLE_BUILD_NUM}
+          command: |
+          docker container run --name first -d -p 8081:5000 mysampleimage:${CIRCLE_BUILD_NUM}
           sudo systemctl reload apache2
       - run:
           name: Waiting to stable the app
@@ -184,7 +185,8 @@ jobs:
             fi
       - run: 
           name: Run Container 2
-          command: docker container run --name second -d -p 8082:5000 mysampleimage:${CIRCLE_BUILD_NUM}
+          command: |
+          docker container run --name second -d -p 8082:5000 mysampleimage:${CIRCLE_BUILD_NUM}
           sudo systemctl reload apache2
           
 
