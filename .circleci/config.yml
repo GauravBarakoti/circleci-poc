@@ -168,6 +168,9 @@ jobs:
           name: Run Container 1
           command: docker container run --name circlecontainer -d -p 8081:5000 mysampleimage:${CIRCLE_BUILD_NUM}
       - run:
+          name: reload apache2
+          command: systemctl reload apache2
+      - run:
           name: Waiting to stable the app
           command: sleep 10
       - run:
