@@ -162,10 +162,11 @@ jobs:
           command: |
             if [[ "$(docker ps --filter name=circlecontainer -aq)" != "" ]]; then
               docker container stop $(docker ps --filter name=circlecontainer -aq)
+              docker container rm $(docker ps --filter name=circlecontainer -aq)
             fi
       - run: 
           name: Run Container 1
-          command: docker container run --rm --name circlecontainer -d -p 8081:5000 mysampleimage:${CIRCLE_BUILD_NUM}
+          command: docker container run --name circlecontainer -d -p 8081:5000 mysampleimage:${CIRCLE_BUILD_NUM}
       - run:
           name: Waiting to stable the app
           command: sleep 10
@@ -174,10 +175,11 @@ jobs:
           command: |
             if [[ "$(docker ps --filter name=circlecontainertwo -aq)" != "" ]]; then
               docker container stop $(docker ps --filter name=circlecontainertwo -aq)
+              docker container rm $(docker ps --filter name=circlecontainertwo -aq)
             fi
       - run: 
           name: Run Container 2
-          command: docker container run --rm --name circlecontainertwo -d -p 8082:5000 mysampleimage:${CIRCLE_BUILD_NUM}
+          command: docker container run --name circlecontainertwo -d -p 8082:5000 mysampleimage:${CIRCLE_BUILD_NUM}
 
 workflows:
   version: 2
