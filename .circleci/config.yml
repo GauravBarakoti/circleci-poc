@@ -147,12 +147,12 @@ jobs:
     # will be available in the circleci user
     steps:
       - checkout
-      - run:
-          name: Remove previous Image If Any
-          command: |
-            if [[ "$(docker images --filter "dangling=true" -q)" != "" ]]; then
-              docker image rm $(docker images --filter "dangling=true" -q)
-            fi
+      # - run:
+      #     name: Remove previous Image If Any
+      #     command: |
+      #       if [[ "$(docker images --filter "dangling=true" -q)" != "" ]]; then
+      #         docker image rm $(docker images --filter "dangling=true" -q)
+      #       fi
       - run: 
           name: Build Docker Image
           command: docker build -t mysampleimage:${CIRCLE_BUILD_NUM} .
@@ -162,7 +162,7 @@ jobs:
           command: |
             if [[ "$(docker ps --filter name=first -aq)" != "" ]]; then
               docker container stop $(docker ps --filter name=first -aq)
-              sleep 5
+              sleep 10
               docker container rm $(docker ps --filter name=first -aq)
             fi
       - run: 
@@ -176,7 +176,7 @@ jobs:
           command: |
             if [[ "$(docker ps --filter name=second -aq)" != "" ]]; then
               docker container stop $(docker ps --filter name=second -aq)
-              sleep 5
+              sleep 10
               docker container rm $(docker ps --filter name=second -aq)
             fi
       - run: 
