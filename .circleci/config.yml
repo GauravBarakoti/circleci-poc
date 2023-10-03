@@ -162,6 +162,7 @@ jobs:
           command: |
             if [[ "$(docker ps --filter name=circlecontainer -aq)" != "" ]]; then
               docker container stop $(docker ps --filter name=circlecontainer -aq)
+              sleep 5
               docker container rm $(docker ps --filter name=circlecontainer -aq)
             fi
       - run: 
@@ -175,6 +176,7 @@ jobs:
           command: |
             if [[ "$(docker ps --filter name=circlecontainertwo -aq)" != "" ]]; then
               docker container stop $(docker ps --filter name=circlecontainertwo -aq)
+              sleep5
               docker container rm $(docker ps --filter name=circlecontainertwo -aq)
             fi
       - run: 
