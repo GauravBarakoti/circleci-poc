@@ -157,13 +157,14 @@ jobs:
           name: Build Docker Image
           command: docker build -t mysampleimage:${CIRCLE_BUILD_NUM} .
           # fix this with image tag and keep 2 previous version of the image
+      - run: sudo systemctl reload apache2
       - run:
           name: Stop and Remove Container first
           command: |
             if [[ "$(docker ps --filter name=first -aq)" != "" ]]; then
+              sleep 5
               docker container stop $(docker ps --filter name=first -aq)
-              
-              sleep 15
+              sleep 5
               docker container rm $(docker ps --filter name=first -aq)
             fi
       - run: 
@@ -178,7 +179,7 @@ jobs:
           command: |
             if [[ "$(docker ps --filter name=second -aq)" != "" ]]; then
               docker container stop $(docker ps --filter name=second -aq)
-              sleep 15
+              sleep 5
               docker container rm $(docker ps --filter name=second -aq)
             fi
       - run: 
