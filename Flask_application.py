@@ -3,5 +3,5 @@ app = Flask(__name__)
 
 @app.route('/')
 def my_flask_application():
-    return 'blue'
+    return 'blue works '
 

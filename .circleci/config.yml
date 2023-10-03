@@ -167,7 +167,7 @@ jobs:
           command: docker container run --name circlecontainer -d mysampleimage
       - run:
           name: Waiting to stable the app
-          command: sleep 70
+          command: sleep 10
       - run:
           name: Stop and Remove Container Second
           command: |
