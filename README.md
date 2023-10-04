@@ -3,11 +3,11 @@
 
 https://circleci.com/docs/configuration-reference/
 
-This documentation will help you understand CircleCI and help deploy your application with approximately no downtime on a server using the CircleCI pipeline.
+This documentation will help you understand CircleCI and will also help in deploying your application with approximately no downtime on a server using the CircleCI pipeline.
 
 We'll start from the very basics.
 
-Take any server in our case I'm proceeding with an Ubuntu server on AWS.
+Take any server in our case I'm proceeding with an ubuntu server on AWS.
 
 I have a sample FLASK application.
 
@@ -15,7 +15,7 @@ Now, we require Apache and Docker.
 
 # Apache and Docker Installation Documentation
 
-This documentation provides step-by-step instructions for installing Apache web server and Docker on your server. Additionally, it includes guidance on hosting a Python Flask application inside a Docker container, where Apache will act as a load balancer to ensure zero downtime during code updates triggered through the CircleCI pipeline.
+This documentation provides step-by-step instructions for installing Apache web server and Docker on your server. Additionally, it includes guidance on hosting a Python Flask application inside a Docker container, where Apache will act as a load balancer to ensure zero downtime during code updates triggered through CircleCI pipeline.
 
 ## Table of Contents
 1. [Apache Installation](#apache-installation)
@@ -25,7 +25,7 @@ This documentation provides step-by-step instructions for installing Apache web 
 
 ---
 
-## 1. Apache Installation
+## 1. Apache Installation 
 
 Apache is a widely-used web server software. Follow these steps to install Apache:
 
@@ -56,7 +56,7 @@ To test if Apache is running, open a web browser and enter your server's IP addr
 
 ## 2. Docker Installation 
 
-Docker is a platform for developing, shipping, and running applications. Docker containers offer the perfect host for small independent applications. 
+Docker is a platform for developing, shipping, and running applications. Docker containers offer perfect host for small independent applications. 
 
 Document for docker installation:
 https://docs.docker.com/engine/install/ubuntu/
@@ -128,7 +128,7 @@ Now, let's host your Python Flask application inside a Docker container and conf
     ```
     mod_proxy_balancer and mod_lbmethod_byrequests add load balancing capabilities to Apache web server.
 
-    changes in Apache 000-default.conf
+    changes in apache 000-default.conf
     ```bash
     cd /etc/apache2/sites-available/ 
     ```
@@ -181,9 +181,9 @@ On the Welcome page provide the necessary details.
 
 For now, I'm proceeding with GitHub.
 
-- Firstly you will not have any projects that CircleCI follows.
+- Firstly you will not have any projects which CircleCI follows.
 
-- Go to Projects and Follow the repository that you want CircleCI to follow.
+- Go to Projects and Follow the repository which you want CircleCI to follow.
 
 - Click on Self-Hosted Runners -> Create Resource Class
 
@@ -257,7 +257,7 @@ sudo systemctl start circleci.service
 
 You have successfully configured your machine with CircleCI.
 
-Now you can deploy your code on this machine using the CircleCI pipeline.
+Now you can deploy your code on this machine using CircleCI pipeline.
 
 In CircleCI we have to create a .circleci/config.yml file which contains our pipeline steps and workflow.
 
@@ -299,9 +299,31 @@ workflows:
 
 ```
 
+Our pipeline workflow:
+- 
+- As you push your code to GitHub repository that is configured with CircleCI.
+- CircleCI build will triggered and our pipeline will run.
+- First, it build the docker image.
+- Second, it runs a container from that image.
+- sleep for 15s.
+- Then, runs another container.
 
+For new version of code deployment
+-
+- First, it will build the docker image.
+- Also, It will stop a container and Remove it.
+- Launch a new container using this image and wait for 15s.
+- Then, stops another container and Remove it.
+- Launch 2nd container.
 
-
+In this way we can achieve no downtime when deploying any new version of our application.
 
 Feel free to adapt this documentation to your specific requirements and Flask application configuration.
+
+
+
+
+## Feedback
+
+If you have any feedback, please reach out to us at bestguarav1234@gmail.com
 
