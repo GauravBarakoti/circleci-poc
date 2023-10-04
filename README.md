@@ -3,11 +3,11 @@
 
 https://circleci.com/docs/configuration-reference/
 
-This documentation will help you understand CircleCI and will also help in deploying your application with approximately no downtime on a server using the CircleCI pipeline.
+This documentation will help you understand CircleCI and help deploy your application with approximately no downtime on a server using the CircleCI pipeline.
 
 We'll start from the very basics.
 
-Take any server in our case I'm proceeding with an ubuntu server on AWS.
+Take any server in our case I'm proceeding with an Ubuntu server on AWS.
 
 I have a sample FLASK application.
 
@@ -15,14 +15,14 @@ Now, we require Apache and Docker.
 
 # Apache and Docker Installation Documentation
 
-This documentation provides step-by-step instructions for installing Apache web server and Docker on your server. Additionally, it includes guidance on hosting a Python Flask application inside a Docker container, where Apache will act as a load balancer to ensure zero downtime during code updates triggered through CircleCI pipeline.
+This documentation provides step-by-step instructions for installing Apache web server and Docker on your server. Additionally, it includes guidance on hosting a Python Flask application inside a Docker container, where Apache will act as a load balancer to ensure zero downtime during code updates triggered through the CircleCI pipeline.
 
 ## Table of Contents
-
 1. [Apache Installation](#apache-installation)
+
 2. [Docker Installation](#docker-installation)
 3. [Hosting Python Flask Application in Docker with Apache Load Balancer](#hosting-python-flask-application-in-docker-with-apache-load-balancer)
-4. [CircleCI pipeline to Automate Deployment of New versions](#circleci-pipeline-to-automate-deployment-of-new-versions)
+4. [CircleCI pipeline to Automate Deployment of New versions](#CircleCI-pipeline-to-Automate-Deployment-of-New-versions)
 ---
 
 ## 1. Apache Installation
@@ -56,7 +56,7 @@ To test if Apache is running, open a web browser and enter your server's IP addr
 
 ## 2. Docker Installation 
 
-Docker is a platform for developing, shipping, and running applications. Docker containers offer perfect host for small independent applications. 
+Docker is a platform for developing, shipping, and running applications. Docker containers offer the perfect host for small independent applications. 
 
 Document for docker installation:
 https://docs.docker.com/engine/install/ubuntu/
@@ -128,7 +128,7 @@ Now, let's host your Python Flask application inside a Docker container and conf
     ```
     mod_proxy_balancer and mod_lbmethod_byrequests add load balancing capabilities to Apache web server.
 
-    changes in apache 000-default.conf
+    changes in Apache 000-default.conf
     ```bash
     cd /etc/apache2/sites-available/ 
     ```
@@ -160,7 +160,9 @@ Now, let's host your Python Flask application inside a Docker container and conf
 
 Now, your Flask application should be accessible via Apache on port 80. Apache will act as a load balancer, providing zero downtime when you push new code versions through your CircleCI pipeline.
 
-## 4. CircleCI pipeline to Automate Deployment of New versions
+# 4. CircleCI pipeline to Automate Deployment of New versions
+
+Build, test, and deploy by using intelligent automation.
 
 ![App Screenshot](https://circleci.com/docs/assets/img/docs/arch.png)
 
@@ -171,19 +173,131 @@ https://circleci.com/docs/first-steps/
 
 Or follow these steps ->
 
-Go to: https://circleci.com/signup/  -> Sign Up  -> Provide Email and Password
+- Go to: https://circleci.com/signup/  -> Sign Up  -> Provide Email and Password
 
 On the Welcome page provide the necessary details.
 
-Now, Connect to your code using GitHub, GitLab.com, Bitbucket.
+- Now, Connect to your code using GitHub, GitLab.com, Bitbucket.
 
 For now, I'm proceeding with GitHub.
 
-Firstly you will not have any projects which CircleCI follows.
+- Firstly you will not have any projects that CircleCI follows.
 
-Go to Projects and Follow the repository which you want CircleCI to follow.
+- Go to Projects and Follow the repository that you want CircleCI to follow.
+
+- Click on Self-Hosted Runners -> Create Resource Class
+
+*CircleCI’s self-hosted runner enables you to use your own infrastructure for running jobs.*
+
+- Enter namespace or go with the default provided and a Resource Class {any custom name}.
+
+A namespace can only be created once for your organization.
+
+- Copy and Save the resource class token it is needed later on, and Select Machine.
+
+- Now proceed with the commands on that page 
+
+```bash
+neofetch
+# For your linux machine information
+```
+
+- Create the circleci user & working directory
+These will be used when executing the task agent. These commands must be run as a user with permissions to create other users (e.g. root)
+
+```bash
+id -u circleci &>/dev/null || sudo adduser --disabled-password --gecos GECOS circleci
+
+sudo mkdir -p /var/opt/circleci
+sudo chmod 0750 /var/opt/circleci
+sudo chown -R circleci /var/opt/circleci /opt/circleci/circleci-launch-agent
+```
+
+- Create a CircleCI runner configuration
+Create a config file, /etc/opt/circleci/launch-agent-config.yaml. It must be owned by circleci with permissions 600
+
+```bash
+sudo mkdir -p /etc/opt/circleci
+sudo touch /etc/opt/circleci/launch-agent-config.yaml
+sudo chown circleci: /etc/opt/circleci/launch-agent-config.yaml
+sudo chmod 600 /etc/opt/circleci/launch-agent-config.yaml
+```
+Replace AUTH_TOKEN with your resource class token. Replace RUNNER_NAME with the name you would like for your self-hosted runner. RUNNER_NAME is unique to the the machine that is installing the runner. When complete, save the template as launch-agent-config.yaml.
+
+It should look like this:
+```bash
+api:
+  auth_token: 9a05a48b5207a1eaf58723a5c0ef04a960142aee9c07e29b348e73b399b8df752457016398081d21
+
+runner:
+  name: RUNNER_NAME
+  working_directory: /var/opt/circleci/workdir
+  cleanup_working_directory: true
+```
+
+- Enable the systemd unit
+
+```bash
+sudo touch /usr/lib/systemd/system/circleci.service
+sudo chown root: /usr/lib/systemd/system/circleci.service
+sudo chmod 644 /usr/lib/systemd/system/circleci.service
+```
+
+- **You must ensure that TimeoutStopSec  {in **/usr/lib/systemd/system/circleci.service** file} is greater than the total amount of time a task will run for - which defaults to 5 hours.
+
+- You can now enable the service:
+```bash
+sudo systemctl enable circleci.service
+```
+
+- Start the service
+```bash
+sudo systemctl start circleci.service
+```
+
+You have successfully configured your machine with CircleCI.
+
+Now you can deploy your code on this machine using the CircleCI pipeline.
+
+In CircleCI we have to create a .circleci/config.yml file which contains our pipeline steps and workflow.
 
 
+Demo pipeline to explain config.yml file
+
+```bash
+version: 2.1
+# The version field is intended to be used in order to issue warnings for deprecation or breaking changes.
+jobs:
+# A Workflow is comprised of one or more uniquely named jobs.
+  runner-deploy:
+  # Name for a job, can be anything
+    machine: true
+    # The virtual machine image to use. 
+    resource_class: k8vhsqovhlv8kmbfzecxgd/docker
+    # The resource_class feature allows you to configure CPU and RAM resources for each job.
+    working_directory: ~/my-app
+    # Not Required, In which directory to run the steps. Will be interpreted as an absolute path. (default: .)
+    steps:
+    # A list of steps to be performed.
+      - checkout
+      # the checkout step will checkout project source code into the job’s working_directory
+      - run:
+      # Used for invoking all command-line programs
+          name: Remove previous Image If Any keep last 2 version
+          # Command to run via the shell
+          command: |
+            echo "hello!"
+
+workflows:
+# Used for orchestrating all jobs.
+  version: 2
+  # The Workflows version field is used to issue warnings for deprecation or breaking changes. Required if config version is 2
+  build-deploy:
+    jobs:
+    # A job name that exists in your config.yml
+      - runner-deploy
+
+```
 
 
 
