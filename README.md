@@ -1,6 +1,8 @@
 
 # CircleCI Documentation
 
+https://circleci.com/docs/configuration-reference/
+
 This documentation will help you understand CircleCI and will also help in deploying your application with approximately no downtime on a server using the CircleCI pipeline.
 
 We'll start from the very basics.
