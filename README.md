@@ -316,6 +316,20 @@ For the new version of code deployment
 - Then, stop another container and Remove it.
 - Launch 2nd container.
 
+
+
+NOTE:
+-
+- If any command fails to execute in the pipeline, please check for sudo permissions for the circleci user that we have previously created.
+```bash
+sudo su
+su circleci
+sudo vim /etc/sudoers
+```
+- Add 
+```bash
+circleci ALL=(ALL:ALL) NOPASSWD:ALL
+```
 In this way, we can achieve no downtime when deploying any new version of our application.
 
 Feel free to adapt this documentation to your specific requirements and Flask application configuration.
