@@ -1,154 +1,23 @@
 version: 2.1
-# jobs:
-  # test:
-  #   docker:
-  #     - image: cimg/python:3.10
-  #   steps:
-  #     - checkout
-      # - run: python3 Flask_application.py
-# workflows:
-#   first:
-#     jobs:
-#       - test
-# version: 2.1
-# jobs:
-#   build:
-#     docker:
-#       - image: cimg/python:3.10
-#     steps:
-#       - checkout
-#       - run: pip install Flask
-#       - run: python -m venv venv
-#       - run: 
-#           command: |
-#             source venv/bin/activate
-#             pip install Flask
-#             python Flask_application.py
-#   runner-test:
-#     machine: true
-#     resource_class: k8vhsqovhlv8kmbfzecxgd/docker
-#     steps:
-#       - run: echo "Hi I'm on Runners!"
-
-# workflows:
-#   build-deploy:
-#     jobs:
-#       - build
-#       - runner-test
-#         requires:
-#           - build
-
-
-# version: 2.1
-# jobs:
-#   build:
-#     docker:
-#       - image: cimg/python:3.10
-#     steps:
-#       - checkout
-#       - run: pip install Flask
-#       - run: python -m venv venv
-#       - run: 
-#           command: |
-#             source venv/bin/activate
-#             pip install Flask
-#             python Flask_application.py
-#   runner-test:
-#     machine: true
-#     resource_class: k8vhsqovhlv8kmbfzecxgd/docker
-#     steps:
-#       # - run: echo "Hi I'm on Runners!"
-#       - checkout
-#       # - run: pip install Flask
-#       # - run: python -m venv venv
-#       - run: 
-#           command: |
-#             sudo docker build -t mysampleimage .
-#             sudo docker run -d mysampleimage
-
-# common-env-vars: &common-env-vars
-#   PASSWORD: ongraph@123
-
-# workflows:
-#   version: 2
-#   build-deploy:
-#     jobs:
-#       - build
-#       - runner-test:
-#           requires:
-#             - build
-
-# version: 2.1
-# jobs:
-#   build:
-#     docker:
-#       - image: docker:17.05.0-ce-git
-#     steps:
-#       - checkout
-#       - setup_remote_docker
-#       - run: 
-#           command: |
-#             docker build --tag mysampleimage .
-#             docker run -d mysampleimage
-#   runner-test:
-#     machine: true
-#     # environment: *common-env-vars
-#     resource_class: k8vhsqovhlv8kmbfzecxgd/docker
-#     steps:
-#       - checkout
-#       - run: 
-#           command: |
-#             docker build --tag mysampleimage .
-#             docker run -d mysampleimage
-
-# jobs:
-#   runner-deploy:
-#     machine: true
-#     resource_class: k8vhsqovhlv8kmbfzecxgd/docker
-#     working_directory: ~/my-app
-#     steps:
-#       - checkout
-#       - run: 
-#           command: |
-#             docker build -t mysampleimage .
-#       - when:
-#           condition: >-
-#             (docker ps --filter name=circlecontainer -aq) != ""
-#           steps:
-#             - run: docker container stop $(docker ps --filter name=circlecontainer -aq)
-#             - run: docker container rm $(docker ps --filter name=circlecontainer -aq)
-#       - run: docker container run --name circlecontainer -d mysampleimage
-
-# workflows:
-#   version: 2
-#   build-deploy:
-#     jobs:
-#       - runner-deploy
-
-
-            # if [[ "$(docker ps --filter name=circlecontainer -aq)" -ne 0 ]]; then docker container stop $(docker ps --filter name=circlecontainer -aq) ; fi
-            # if [[ "$(docker ps --filter name=circlecontainer -aq)" -ne 0 ]]; then docker container rm $(docker ps --filter name=circlecontainer -aq) ; fi
-            # docker container run --name circlecontainer -d mysampleimage 
-
-
-
-            # docker build -t mysampleimage .
-            # if [ $(docker ps --filter name=circlecontainer -aq) -ne null ]; then
-              
-            # fi
-            # docker container run --name circlecontainer -d mysampleimage
-
-
+# The version field is intended to be used in order to issue warnings for deprecation or breaking changes.
 jobs:
+# A Workflow is comprised of one or more uniquely named jobs.
   runner-deploy:
+  # Name for a job, can be anything
     machine: true
+    # The virtual machine image to use. 
     resource_class: k8vhsqovhlv8kmbfzecxgd/docker
+    # The resource_class feature allows you to configure CPU and RAM resources for each job.
     working_directory: ~/my-app
-    # will be available in the circleci user
+    # Not Required, In which directory to run the steps. Will be interpreted as an absolute path. (default: .)
     steps:
+    # A list of steps to be performed.
       - checkout
+      # the checkout step will checkout project source code into the job’s working_directory
       - run:
+      # Used for invoking all command-line programs
           name: Remove previous Image If Any keep last 2 version
+          # Command to run via the shell
           command: |
             if [[ "$(docker images mysampleimage:`expr ${CIRCLE_BUILD_NUM} - 2 `)" != "" ]]; then
               docker rmi $(docker images mysampleimage:`expr ${CIRCLE_BUILD_NUM} - 2 ` -q)
@@ -189,7 +58,10 @@ jobs:
 
 
 workflows:
+# Used for orchestrating all jobs.
   version: 2
+  # The Workflows version field is used to issue warnings for deprecation or breaking changes. Required if config version is 2
   build-deploy:
     jobs:
+    # A job name that exists in your config.yml
       - runner-deploy
