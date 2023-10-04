@@ -261,6 +261,7 @@ Now you can deploy your code on this machine using the CircleCI pipeline.
 
 In CircleCI we have to create a `.circleci/config.yml` file which contains our pipeline steps and workflow.
 
+pipeline will not work if the name is `config.yaml`, so the name of the file must be `config.yml`
 
 Demo pipeline to explain config.yml file
 
