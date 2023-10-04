@@ -9,23 +9,23 @@ We'll start from the very basics.
 
 Take any server in our case I'm proceeding with an Ubuntu server on AWS.
 
-I have a sample FLASK application.
+I have a sample `FLASK` application.
 
-Now, we require Apache and Docker.
+Now, we require `Apache` and `Docker`.
 
 # Apache and Docker Installation Documentation
 
 This documentation provides step-by-step instructions for installing Apache web server and Docker on your server. Additionally, it includes guidance on hosting a Python Flask application inside a Docker container, where Apache will act as a load balancer to ensure zero downtime during code updates triggered through the CircleCI pipeline.
 
 ## Table of Contents
-1. [Apache Installation](#apache-installation)
-2. [Docker Installation](#docker-installation)
-3. [Hosting Python Flask Application in Docker with Apache Load Balancer](#hosting-python-flask-application-in-docker-with-apache-load-balancer)
-4. [CircleCI pipeline to Automate Deployment of New versions](#circleci-pipeline-to-automate-deployment-of-new-versions)
+- [Apache Installation](#apache-installation)
+- [Docker Installation](#docker-installation)
+- [Hosting Python Flask Application in Docker with Apache Load Balancer](#hosting-python-flask-application-in-docker-with-apache-load-balancer)
+- [CircleCI pipeline to Automate Deployment of New versions](#circleci-pipeline-to-automate-deployment-of-new-versions)
 
 ---
 
-## 1. Apache Installation
+## Apache Installation 
 
 Apache is a widely-used web server software. Follow these steps to install Apache:
 
@@ -54,7 +54,7 @@ To test if Apache is running, open a web browser and enter your server's IP addr
 
 ---
 
-## 2. Docker Installation
+## Docker Installation 
 
 Docker is a platform for developing, shipping, and running applications. Docker containers offer the perfect host for small independent applications. 
 
@@ -85,7 +85,7 @@ sudo docker --version
 
 ---
 
-## 3. Hosting Python Flask Application in Docker with Apache Load Balancer
+## Hosting Python Flask Application in Docker with Apache Load Balancer 
 
 Now, let's host your Python Flask application inside a Docker container and configure Apache as a load balancer.
 
@@ -160,7 +160,7 @@ Now, let's host your Python Flask application inside a Docker container and conf
 
 Now, your Flask application should be accessible via Apache on port 80. Apache will act as a load balancer, providing zero downtime when you push new code versions through your CircleCI pipeline.
 
-## 4. CircleCI pipeline to Automate Deployment of New versions
+## CircleCI pipeline to Automate Deployment of New versions
 
 Build, test, and deploy by using intelligent automation.
 
@@ -189,7 +189,7 @@ For now, I'm proceeding with GitHub.
 
 *CircleCI’s self-hosted runner enables you to use your own infrastructure for running jobs.*
 
-- Enter namespace or go with the default provided and a Resource Class {any custom name}.
+- Enter namespace or go with the default provided and a Resource Class `any custom name`.
 
 A namespace can only be created once for your organization.
 
@@ -214,7 +214,7 @@ sudo chown -R circleci /var/opt/circleci /opt/circleci/circleci-launch-agent
 ```
 
 - Create a CircleCI runner configuration
-Create a config file, /etc/opt/circleci/launch-agent-config.yaml. It must be owned by circleci with permissions 600
+Create a config file, `/etc/opt/circleci/launch-agent-config.yaml`. It must be owned by circleci with permissions 600
 
 ```bash
 sudo mkdir -p /etc/opt/circleci
@@ -243,7 +243,7 @@ sudo chown root: /usr/lib/systemd/system/circleci.service
 sudo chmod 644 /usr/lib/systemd/system/circleci.service
 ```
 
-- **You must ensure that TimeoutStopSec  {in **/usr/lib/systemd/system/circleci.service** file} is greater than the total amount of time a task will run for - which defaults to 5 hours.
+- **You must ensure that TimeoutStopSec (in `/usr/lib/systemd/system/circleci.service` file) is greater than the total amount of time a task will run for - which defaults to 5 hours.
 
 - You can now enable the service:
 ```bash
@@ -259,7 +259,7 @@ You have successfully configured your machine with CircleCI.
 
 Now you can deploy your code on this machine using the CircleCI pipeline.
 
-In CircleCI we have to create a .circleci/config.yml file which contains our pipeline steps and workflow.
+In CircleCI we have to create a `.circleci/config.yml` file which contains our pipeline steps and workflow.
 
 
 Demo pipeline to explain config.yml file
@@ -325,5 +325,5 @@ Feel free to adapt this documentation to your specific requirements and Flask ap
 
 ## Feedback
 
-If you have any feedback, please reach out to us at bestguarav1234@gmail.com
+If you have any feedback, please reach out to us at `bestguarav1234@gmail.com`
 
