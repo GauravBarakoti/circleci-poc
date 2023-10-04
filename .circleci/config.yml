@@ -147,12 +147,12 @@ jobs:
     # will be available in the circleci user
     steps:
       - checkout
-      # - run:
-      #     name: Remove previous Image If Any keep last 2 version
-      #     command: |
-      #       # if [[ "$(docker images mysampleimage:`expr ${CIRCLE_BUILD_NUM} - 2 `)" != "" ]]; then
-      #       #   docker rmi $(docker images mysampleimage:`expr ${CIRCLE_BUILD_NUM} - 2 ` -q)
-      #       # fi
+      - run:
+          name: Remove previous Image If Any keep last 2 version
+          command: |
+            if [[ "$(docker images mysampleimage:`expr ${CIRCLE_BUILD_NUM} - 2 `)" != "" ]]; then
+              docker rmi $(docker images mysampleimage:`expr ${CIRCLE_BUILD_NUM} - 2 ` -q)
+            fi
       - run: 
           name: Build Docker Image
           command: docker build -t mysampleimage:${CIRCLE_BUILD_NUM} .
