@@ -25,7 +25,7 @@ This documentation provides step-by-step instructions for installing Apache web 
 
 ---
 
-## 1. Apache Installation 
+## 1. Apache Installation
 
 Apache is a widely-used web server software. Follow these steps to install Apache:
 
@@ -54,7 +54,7 @@ To test if Apache is running, open a web browser and enter your server's IP addr
 
 ---
 
-## 2. Docker Installation 
+## 2. Docker Installation
 
 Docker is a platform for developing, shipping, and running applications. Docker containers offer the perfect host for small independent applications. 
 
@@ -85,7 +85,7 @@ sudo docker --version
 
 ---
 
-## 3. Hosting Python Flask Application in Docker with Apache Load Balancer 
+## 3. Hosting Python Flask Application in Docker with Apache Load Balancer
 
 Now, let's host your Python Flask application inside a Docker container and configure Apache as a load balancer.
 
@@ -160,7 +160,7 @@ Now, let's host your Python Flask application inside a Docker container and conf
 
 Now, your Flask application should be accessible via Apache on port 80. Apache will act as a load balancer, providing zero downtime when you push new code versions through your CircleCI pipeline.
 
-# 4. CircleCI pipeline to Automate Deployment of New versions
+## 4. CircleCI pipeline to Automate Deployment of New versions
 
 Build, test, and deploy by using intelligent automation.
 
