@@ -14,14 +14,6 @@ jobs:
     # A list of steps to be performed.
       - checkout
       # the checkout step will checkout project source code into the job’s working_directory
-      - run:
-      # Used for invoking all command-line programs
-          name: Remove previous Image If Any keep last 2 version
-          # Command to run via the shell
-          command: |
-            if [[ "$(docker images mysampleimage:`expr ${CIRCLE_BUILD_NUM} - 2 `)" != "" ]]; then
-              docker rmi $(docker images mysampleimage:`expr ${CIRCLE_BUILD_NUM} - 2 ` -q)
-            fi
       - run: 
           name: Build Docker Image
           command: docker build -t mysampleimage:${CIRCLE_BUILD_NUM} .
@@ -55,6 +47,14 @@ jobs:
           name: Run Container 2
           command: docker container run --name second -d -p 8082:5000 mysampleimage:${CIRCLE_BUILD_NUM}
       - run: sudo systemctl reload apache2
+            - run:
+      # Used for invoking all command-line programs
+          name: Remove previous Image If Any keep last 2 version
+          # Command to run via the shell
+          command: |
+            if [[ "$(docker images mysampleimage:`expr ${CIRCLE_BUILD_NUM} - 2 ` -q)" != "" ]]; then
+              docker rmi $(docker images mysampleimage:`expr ${CIRCLE_BUILD_NUM} - 2 ` -q)
+            fi
 
 
 workflows:
