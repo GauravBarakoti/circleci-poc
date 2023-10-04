@@ -18,11 +18,11 @@ Now, we require Apache and Docker.
 This documentation provides step-by-step instructions for installing Apache web server and Docker on your server. Additionally, it includes guidance on hosting a Python Flask application inside a Docker container, where Apache will act as a load balancer to ensure zero downtime during code updates triggered through CircleCI pipeline.
 
 ## Table of Contents
-1. [Apache Installation](#apache-installation)
 
+1. [Apache Installation](#apache-installation)
 2. [Docker Installation](#docker-installation)
 3. [Hosting Python Flask Application in Docker with Apache Load Balancer](#hosting-python-flask-application-in-docker-with-apache-load-balancer)
-4. [CircleCI pipeline to Automate Deployment of New versions](#CircleCI-pipeline-to-Automate-Deployment-of-New-versions)
+4. [CircleCI pipeline to Automate Deployment of New versions](#circleci-pipeline-to-automate-deployment-of-new-versions)
 ---
 
 ## 1. Apache Installation
@@ -160,7 +160,7 @@ Now, let's host your Python Flask application inside a Docker container and conf
 
 Now, your Flask application should be accessible via Apache on port 80. Apache will act as a load balancer, providing zero downtime when you push new code versions through your CircleCI pipeline.
 
-# 4. CircleCI pipeline to Automate Deployment of New versions
+## 4. CircleCI pipeline to Automate Deployment of New versions
 
 ![App Screenshot](https://circleci.com/docs/assets/img/docs/arch.png)
 
