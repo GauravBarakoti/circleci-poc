@@ -227,7 +227,7 @@ Replace AUTH_TOKEN with your resource class token. Replace RUNNER_NAME with the 
 It should look like this:
 ```bash
 api:
-  auth_token: 9a05a48b5207a1eaf58723a5c0ef04a960142aee9c07e29b348e73b399b8df752457016398081d21
+  auth_token: `<provide your token>` 9a05a48b5207a1eaf5 `<something like this>`
 
 runner:
   name: RUNNER_NAME
@@ -263,6 +263,7 @@ In CircleCI we have to create a `.circleci/config.yml` file which contains our p
 
 
 Demo pipeline to explain config.yml file
+Please refer the config.yml in the .circleci folder here is just a glimpse of the explanation of it.
 
 ```bash
 version: 2.1
@@ -286,7 +287,10 @@ jobs:
           name: Remove previous Image If Any keep last 2 version
           # Command to run via the shell
           command: |
-            echo "hello!"
+            .
+            .
+            .
+            .
 
 workflows:
 # Used for orchestrating all jobs.
@@ -336,8 +340,18 @@ Feel free to adapt this documentation to your specific requirements and Flask ap
 
 
 
+# **Thank You**
 
-## Feedback
+I hope you find it useful. If you have any doubt in any of the step then feel free to contact me.
+If you find any issue in it then let me know.
 
-If you have any feedback, please reach out to us at `bestguarav1234@gmail.com`
+<!-- [![Build Status](https://img.icons8.com/color/452/linkedin.png)](https://www.linkedin.com/in/gaurav-barakoti-27002223b) -->
 
+
+<table>
+  <tr>
+    <th><a href="https://www.linkedin.com/in/gaurav-barakoti-27002223b" target="_blank"><img src="https://img.icons8.com/color/452/linkedin.png" alt="linkedin" width="30"/><a/></th>
+    <th><a href="mailto:bestgaurav1234@gmail.com" target="_blank"><img src="https://img.icons8.com/color/344/gmail-new.png" alt="Mail" width="30"/><a/>
+</th>
+  </tr>
+</table>

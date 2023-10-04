@@ -52,8 +52,8 @@ jobs:
           name: Remove previous Image If Any keep last 2 version
           # Command to run via the shell
           command: |
-            if [[ "$(docker images mysampleimage:`expr ${CIRCLE_BUILD_NUM} - 2 ` -q)" != "" ]]; then
-              docker rmi $(docker images mysampleimage:`expr ${CIRCLE_BUILD_NUM} - 2 ` -q)
+            if [[ "$(docker images mysampleimage:`expr ${CIRCLE_BUILD_NUM} - 3 ` -q)" != "" ]]; then
+              docker image rm $(docker images mysampleimage:`expr ${CIRCLE_BUILD_NUM} - 3 ` -q)
             fi
 
 
