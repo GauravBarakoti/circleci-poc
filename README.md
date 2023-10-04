@@ -19,10 +19,10 @@ This documentation provides step-by-step instructions for installing Apache web 
 
 ## Table of Contents
 1. [Apache Installation](#apache-installation)
-
 2. [Docker Installation](#docker-installation)
 3. [Hosting Python Flask Application in Docker with Apache Load Balancer](#hosting-python-flask-application-in-docker-with-apache-load-balancer)
-4. [CircleCI pipeline to Automate Deployment of New versions](#CircleCI-pipeline-to-Automate-Deployment-of-New-versions)
+4. [CircleCI pipeline to Automate Deployment of New versions](#circleci-pipeline-to-automate-deployment-of-new-versions)
+
 ---
 
 ## 1. Apache Installation
