@@ -19,9 +19,10 @@ This documentation provides step-by-step instructions for installing Apache web 
 
 ## Table of Contents
 1. [Apache Installation](#apache-installation)
+
 2. [Docker Installation](#docker-installation)
 3. [Hosting Python Flask Application in Docker with Apache Load Balancer](#hosting-python-flask-application-in-docker-with-apache-load-balancer)
-
+4. [CircleCI pipeline to Automate Deployment of New versions](#CircleCI-pipeline-to-Automate-Deployment-of-New-versions)
 ---
 
 ## 1. Apache Installation
@@ -159,7 +160,10 @@ Now, let's host your Python Flask application inside a Docker container and conf
 
 Now, your Flask application should be accessible via Apache on port 80. Apache will act as a load balancer, providing zero downtime when you push new code versions through your CircleCI pipeline.
 
-# 4. CircleCI pipeline to Automate Deployment of New version
+# 4. CircleCI pipeline to Automate Deployment of New versions
+
+![App Screenshot](https://circleci.com/docs/assets/img/docs/arch.png)
+
 
 You can follow the official documentation
 
@@ -177,7 +181,9 @@ For now, I'm proceeding with GitHub.
 
 Firstly you will not have any projects which CircleCI follows.
 
-Go to Projects and Follow the repository which you want CircleCI to 
+Go to Projects and Follow the repository which you want CircleCI to follow.
+
+
 
 
 
