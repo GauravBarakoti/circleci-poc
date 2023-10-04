@@ -1,6 +1,10 @@
 
 # CircleCI Documentation
 
+<p align="left"> <img src="https://komarev.com/ghpvc/?username=jaiswaladi246&label=Profile%20views&color=0e75b6&style=flat" alt="jaiswaladi246" /> </p>
+
+
+
 https://circleci.com/docs/configuration-reference/
 
 This documentation will help you understand CircleCI and help deploy your application with approximately no downtime on a server using the CircleCI pipeline.
