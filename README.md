@@ -264,7 +264,7 @@ In CircleCI we have to create a `.circleci/config.yml` file which contains our p
 
 Demo pipeline to explain config.yml file
 
-`Please refer the config.yml in the .circleci folder here is just a glimpse of the explanation of it.`
+Please refer the `config.yml` in the `.circleci folder` here is just a `glimpse of the explanation` of it.
 
 ```bash
 version: 2.1
