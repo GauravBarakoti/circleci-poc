@@ -1,7 +1,7 @@
 version: 2.1
 # The version field is intended to be used in order to issue warnings for deprecation or breaking changes.
 orbs:
-  slack: circleci/slack@4.12.5
+  slack: circleci/slack@4.9.3
 jobs:
 # A Workflow is comprised of one or more uniquely named jobs.
   # notify:
