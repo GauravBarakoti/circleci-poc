@@ -25,20 +25,7 @@ jobs:
   #             ]
   #           }
   #         channel: 'C05UV56J30F'
-  # result:
-  #   docker:
-  #     - image: 'cimg/base:stable'
-  #   steps:
-  #     - slack/notify:
-  #         event: fail
-  #         channel: 'C05UV56J30F'
-  #         mentions: '@GauravBarakoti'
-  #         template: basic_fail_1
-  #     - slack/notify:
-  #         event: pass
-  #         channel: 'C05UV56J30F'
-  #         mentions: '@GauravBarakoti'
-  #         template: success_tagged_deploy_1
+
 
   runner-deploy:
   # Name for a job, can be anything
@@ -46,7 +33,7 @@ jobs:
     # The virtual machine image to use. 
     resource_class: k8vhsqovhlv8kmbfzecxgd/docker
     # The resource_class feature allows you to configure CPU and RAM resources for each job.
-    working_directory: ~/my-app
+    # working_directory: ~/my-app
     # Not Required, In which directory to run the steps. Will be interpreted as an absolute path. (default: .)
     steps:
     # A list of steps to be performed.
@@ -95,18 +82,13 @@ jobs:
       #       fi
       - run:
           command: |
-              export $BASH_ENV=newMessage
-              echo "${BASH_ENV}"
+              echo "Hello! WORLD!!!"
       - slack/notify:
-          channel: slack-secrets
-          event: pass
-          custom: |
-            {"blocks": [{"type": "section", "text": {"type": "mrkdwn", "text": "$MESSAGE" }}]}     
-      - slack/notify:
-          channel: slack-secrets
           event: fail
           template: basic_fail_1
-
+      - slack/notify:
+          event: pass
+          template: success_tagged_deploy_1
 
 
 
