@@ -117,6 +117,6 @@ workflows:
     # A job name that exists in your config.yml
       - notify:
           context: slack-secrets
-      - runner-deploy
+      - runner-deploy:
           context: slack-secrets
 
