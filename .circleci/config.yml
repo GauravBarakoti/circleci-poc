@@ -25,20 +25,22 @@ jobs:
               ]
             }
           event: always
-  result:
-    docker:
-      - image: 'cimg/base:stable'
-    steps:
-      - slack/notify:
-          event: fail
           channel: 'C05UV56J30F'
           mentions: '@GauravBarakoti'
-          template: basic_fail_1
-      - slack/notify:
-          event: pass
-          channel: 'C05UV56J30F'
-          mentions: '@GauravBarakoti'
-          template: success_tagged_deploy_1
+  # result:
+  #   docker:
+  #     - image: 'cimg/base:stable'
+  #   steps:
+  #     - slack/notify:
+  #         event: fail
+  #         channel: 'C05UV56J30F'
+  #         mentions: '@GauravBarakoti'
+  #         template: basic_fail_1
+  #     - slack/notify:
+  #         event: pass
+  #         channel: 'C05UV56J30F'
+  #         mentions: '@GauravBarakoti'
+  #         template: success_tagged_deploy_1
 
   runner-deploy:
   # Name for a job, can be anything
@@ -93,6 +95,17 @@ jobs:
             if [[ "$(docker images mysampleimage:`expr ${CIRCLE_BUILD_NUM} - 3 ` -q)" != "" ]]; then
               docker image rm $(docker images mysampleimage:`expr ${CIRCLE_BUILD_NUM} - 3 ` -q)
             fi
+      - slack/notify:
+          event: fail
+          channel: 'C05UV56J30F'
+          mentions: '@GauravBarakoti'
+          template: basic_fail_1
+      - slack/notify:
+          event: pass
+          channel: 'C05UV56J30F'
+          mentions: '@GauravBarakoti'
+          template: success_tagged_deploy_1
+
 
 
 workflows:
@@ -105,6 +118,5 @@ workflows:
       - notify:
           context: slack-secrets
       - runner-deploy
-      - result:
-          requires:
-            - runner-deploy
+          context: slack-secrets
+
