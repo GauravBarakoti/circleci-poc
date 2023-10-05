@@ -25,12 +25,12 @@ jobs:
             ]
           }
         event: always
-  - slack/notify:
-	    event: fail
-	    template: basic_fail_1
-- slack/notify:
-	    event: pass
-	    template: success_tagged_deploy_1
+      - slack/notify:
+	      event: fail
+	      template: basic_fail_1
+      - slack/notify:
+	      event: pass
+	      template: success_tagged_deploy_1
 
   runner-deploy:
   # Name for a job, can be anything
