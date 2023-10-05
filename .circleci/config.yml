@@ -4,27 +4,27 @@ orbs:
   slack: circleci/slack@4.12.5
 jobs:
 # A Workflow is comprised of one or more uniquely named jobs.
-  notify:
-    docker:
-      - image: 'cimg/base:stable'
-    steps:
-      - slack/notify:
-          custom: |
-            {
-              "blocks": [
-                {
-                  "type": "section",
-                  "fields": [
-                    {
-                      "type": "plain_text",
-                      "text": "**Somebody triggered the pipeline**",
-                      "emoji": true
-                    }
-                  ]
-                }
-              ]
-            }
-          channel: 'C05UV56J30F'
+  # notify:
+  #   docker:
+  #     - image: 'cimg/base:stable'
+  #   steps:
+  #     - slack/notify:
+  #         custom: |
+  #           {
+  #             "blocks": [
+  #               {
+  #                 "type": "section",
+  #                 "fields": [
+  #                   {
+  #                     "type": "plain_text",
+  #                     "text": "**Your Pipeline is Triggered**",
+  #                     "emoji": true
+  #                   }
+  #                 ]
+  #               }
+  #             ]
+  #           }
+  #         channel: 'C05UV56J30F'
   # result:
   #   docker:
   #     - image: 'cimg/base:stable'
@@ -93,15 +93,16 @@ jobs:
             if [[ "$(docker images mysampleimage:`expr ${CIRCLE_BUILD_NUM} - 3 ` -q)" != "" ]]; then
               docker image rm $(docker images mysampleimage:`expr ${CIRCLE_BUILD_NUM} - 3 ` -q)
             fi
-      - slack/notify:
-          channel: 'C05UV56J30F'
-          event: fail
-          template: basic_fail_1
-      - slack/notify:
-          event: pass
-          channel: 'C05UV56J30F'
-          # mentions: '@GauravBarakoti'
-          template: success_tagged_deploy_1
+       - slack/notify:
+           event: fail
+           template: basic_fail_1
+           channel: 'C05UV56J30F'
+           mentions: "@Gaurav"
+       - slack/notify:
+           event: pass
+           template: success_tagged_deploy_1
+           channel: 'C05UV56J30F'
+
 
 
 
@@ -112,8 +113,6 @@ workflows:
   build-deploy:
     jobs:
     # A job name that exists in your config.yml
-      - notify:
-          context: slack-secrets
       - runner-deploy:
           context: slack-secrets
 
