@@ -93,45 +93,19 @@ jobs:
             if [[ "$(docker images mysampleimage:`expr ${CIRCLE_BUILD_NUM} - 3 ` -q)" != "" ]]; then
               docker image rm $(docker images mysampleimage:`expr ${CIRCLE_BUILD_NUM} - 3 ` -q)
             fi
+      - run:
+          command: |
+              echo 'export MESSAGE="Changes to pipeline applied" ' >> $BASH_ENV
+              source $BASH_ENV
       - slack/notify:
-          event: fail
-          custom: |
-            {
-              "blocks": [
-                {
-                  "type": "section",
-                  "fields": [
-                    {
-                      "type": "plain_text",
-                      "text": "**Your Pipeline is Triggered and FAILED!!**",
-                      "emoji": true
-                    }
-                  ]
-                }
-              ]
-            }
-          # template: basic_fail_1
-          channel: 'C05UV56J30F'
-          mentions: "@Gaurav"
-      - slack/notify:
+          channel: slack-secrets
           event: pass
-          channel: 'C05UV56J30F'
           custom: |
-            {
-              "blocks": [
-                {
-                  "type": "section",
-                  "fields": [
-                    {
-                      "type": "plain_text",
-                      "text": "**Deployment Successful!! **",
-                      "emoji": true
-                    }
-                  ]
-                }
-              ]
-            }
-          # template: success_tagged_deploy_1
+            {"blocks": [{"type": "section", "text": {"type": "mrkdwn", "text": "$MESSAGE" }}]}     
+      - slack/notify:
+          channel: slack-secrets
+          event: fail
+          template: basic_fail_1
 
 
 
