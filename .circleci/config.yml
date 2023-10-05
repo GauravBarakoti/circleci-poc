@@ -95,6 +95,5 @@ workflows:
   build-deploy:
     jobs:
     # A job name that exists in your config.yml
-      - runner-deploy:
-          context: slack-secrets
+      - runner-deploy
 
