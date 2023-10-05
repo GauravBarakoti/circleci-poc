@@ -25,13 +25,17 @@ jobs:
               ]
             }
           event: always
+  result:
+    docker:
+      - image: 'cimg/base:stable'
+    steps:
       - slack/notify:
           event: fail
-          channel: 'C05UV56J30F, 05UB17QT25'
+          channel: 'C05UV56J30F'
           template: basic_fail_1
       - slack/notify:
           event: pass
-          channel: 'C05UV56J30F, 05UB17QT25'
+          channel: 'C05UV56J30F'
           template: success_tagged_deploy_1
 
   runner-deploy:
@@ -99,3 +103,6 @@ workflows:
       - notify:
           context: slack-secrets
       - runner-deploy
+      - result:
+          requires:
+            - runner-deploy
