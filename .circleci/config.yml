@@ -88,8 +88,6 @@ jobs:
           event: pass
           template: success_tagged_deploy_1workflows
 
-
-
 workflows:
 # Used for orchestrating all jobs.
   version: 2
