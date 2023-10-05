@@ -96,12 +96,10 @@ jobs:
       - slack/notify:
           event: fail
           template: basic_fail_1
-          channel: 'C05UV56J30F'
           mentions: "@Gaurav"
       - slack/notify:
           event: pass
           template: success_tagged_deploy_1
-          channel: 'C05UV56J30F'
 
 
 
