@@ -24,9 +24,7 @@ jobs:
                 }
               ]
             }
-          event: always
           channel: 'C05UV56J30F'
-          mentions: '@GauravBarakoti'
   # result:
   #   docker:
   #     - image: 'cimg/base:stable'
@@ -96,14 +94,13 @@ jobs:
               docker image rm $(docker images mysampleimage:`expr ${CIRCLE_BUILD_NUM} - 3 ` -q)
             fi
       - slack/notify:
-          event: fail
           channel: 'C05UV56J30F'
-          mentions: '@GauravBarakoti'
+          event: fail
           template: basic_fail_1
       - slack/notify:
           event: pass
           channel: 'C05UV56J30F'
-          mentions: '@GauravBarakoti'
+          # mentions: '@GauravBarakoti'
           template: success_tagged_deploy_1
 
 
