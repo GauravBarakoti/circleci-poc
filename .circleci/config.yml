@@ -27,9 +27,11 @@ jobs:
           event: always
       - slack/notify:
           event: fail
+          channel: 'C05UV56J30F, 05UB17QT25'
           template: basic_fail_1
       - slack/notify:
           event: pass
+          channel: 'C05UV56J30F, 05UB17QT25'
           template: success_tagged_deploy_1
 
   runner-deploy:
