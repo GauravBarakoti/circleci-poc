@@ -6,25 +6,25 @@ jobs:
 # A Workflow is comprised of one or more uniquely named jobs.
   notify:
     docker:
-      - image:
+      - image: 'cimg/base:stable'
     steps:
       - slack/notify:
-        custom: |
-          {
-            "blocks": [
-              {
-                "type": "section",
-                "fields": [
-                  {
-                    "type": "plain_text",
-                    "text": "**Somebody triggered the pipeline**",
-                    "emoji": true
-                  }
-                ]
-              }
-            ]
-          }
-        event: always
+          custom: |
+            {
+              "blocks": [
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "plain_text",
+                      "text": "**Somebody triggered the pipeline**",
+                      "emoji": true
+                    }
+                  ]
+                }
+              ]
+            }
+          event: always
       - slack/notify:
           event: fail
           template: basic_fail_1
@@ -94,6 +94,6 @@ workflows:
   build-deploy:
     jobs:
     # A job name that exists in your config.yml
-      - notify
+      - notify:
           context: slack-secrets
       - runner-deploy
