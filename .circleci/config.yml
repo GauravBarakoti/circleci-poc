@@ -32,10 +32,12 @@ jobs:
       - slack/notify:
           event: fail
           channel: 'C05UV56J30F'
+          mentions: '@GauravBarakoti'
           template: basic_fail_1
       - slack/notify:
           event: pass
           channel: 'C05UV56J30F'
+          mentions: '@GauravBarakoti'
           template: success_tagged_deploy_1
 
   runner-deploy:
