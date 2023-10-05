@@ -233,7 +233,7 @@ Replace AUTH_TOKEN with your resource class token. Replace RUNNER_NAME with the 
 It should look like this:
 ```bash
 api:
-  auth_token: `<provide your token>` 9a05a48b5207a1eaf5 `<something like this>`
+  auth_token: <provide your token> 9a05a48b5207a1eaf5 <something like this>
 
 runner:
   name: RUNNER_NAME
