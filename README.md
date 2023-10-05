@@ -1,7 +1,7 @@
 
 # CircleCI Documentation
 
-![Visitor Count](https://profile-counter.glitch.me/gauravbarakoti/count.svg)
+Visits: ![Visitor Count](https://profile-counter.glitch.me/gauravbarakoti/count.svg)
 
 
 
