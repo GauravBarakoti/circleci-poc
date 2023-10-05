@@ -95,9 +95,8 @@ jobs:
       #       fi
       - run:
           command: |
-              echo 'export MESSAGE="Changes to pipeline applied" ' >> $BASH_ENV
-              source $BASH_ENV
-              echo $BASH_ENV
+              export $BASH_ENV=newMessage
+              echo "${BASH_ENV}"
       - slack/notify:
           channel: slack-secrets
           event: pass
