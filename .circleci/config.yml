@@ -111,9 +111,11 @@ jobs:
               ]
             }
           # template: basic_fail_1
+          channel: 'C05UV56J30F'
           mentions: "@Gaurav"
       - slack/notify:
           event: pass
+          channel: 'C05UV56J30F'
           custom: |
             {
               "blocks": [
