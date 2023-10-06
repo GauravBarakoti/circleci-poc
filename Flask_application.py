@@ -3,5 +3,5 @@ app = Flask(__name__)
 
 @app.route('/')
 def my_flask_application():
-    return 'Changes made in the pipeline ..'
+    return 'Application Up and Running with no downtime,! Yay!!'
 
