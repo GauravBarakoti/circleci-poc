@@ -4,10 +4,17 @@ orbs:
   slack: circleci/slack@4.12.5
 jobs:
 # A Workflow is comprised of one or more uniquely named jobs.
-  # notify:
-  #   docker:
-  #     - image: 'cimg/base:stable'
-  #   steps:
+  notify:
+    docker:
+      - image: 'cimg/base:stable'
+    steps:
+      - slack/notify:
+          event: fail
+          mentions: '@EngineeringTeam'
+          template: basic_fail_1
+      - slack/notify:
+          event: pass
+          template: success_tagged_deploy_1
   #     - slack/notify:
   #         custom: |
   #           {
@@ -82,13 +89,7 @@ jobs:
       #       fi
       - run: echo "Sending status"
       - run: echo "deploy my app"
-      - slack/notify:
-          event: fail
-          mentions: '@EngineeringTeam'
-          template: basic_fail_1
-      - slack/notify:
-          event: pass
-          template: success_tagged_deploy_1
+
 
 workflows:
 # Used for orchestrating all jobs.
@@ -96,6 +97,8 @@ workflows:
   # The Workflows version field is used to issue warnings for deprecation or breaking changes. Required if config version is 2
   build-deploy:
     jobs:
+      - notify:
+          context: slack-secrets
     # A job name that exists in your config.yml
       - runner-deploy
 
