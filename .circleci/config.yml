@@ -44,17 +44,17 @@ jobs:
             }
           channel: 'C05UV56J30F'
           mentions: '@GauravBarakoti'
-  test-server:
+  # test-server:
   # Name for a job, can be anything
-    machine: true
+    # machine: true
     # The virtual machine image to use. 
-    resource_class: k8vhsqovhlv8kmbfzecxgd/docker
+    # resource_class: k8vhsqovhlv8kmbfzecxgd/docker
     # The resource_class feature allows you to configure CPU and RAM resources for each job.
     # working_directory: ~/my-app
     # Not Required, In which directory to run the steps. Will be interpreted as an absolute path. (default: .)
-    steps:
+    # steps:
     # A list of steps to be performed.
-      - checkout
+      # - checkout
       # the checkout step will checkout project source code into the job’s working_directory
       # - run: 
       #     name: Build Docker Image
@@ -73,10 +73,10 @@ jobs:
       # - run: 
       #     name: Run Container 1
       #     command: docker container run --name first -d -p 8081:5000 mysampleimage:${CIRCLE_BUILD_NUM}
-      - run: sudo systemctl reload apache2
-      - run:
-          name: Waiting to stable the app
-          command: sleep 15
+      # - run: sudo systemctl reload apache2
+      # - run:
+      #     name: Waiting to stable the app
+      #     command: sleep 15
       # - run:
       #     name: Stop and Remove Container Second
       #     command: |
@@ -88,7 +88,7 @@ jobs:
       # - run: 
       #     name: Run Container 2
       #     command: docker container run --name second -d -p 8082:5000 mysampleimage:${CIRCLE_BUILD_NUM}
-      - run: sudo systemctl reload apache2
+      # - run: sudo systemctl reload apache2
       # - run:
       # # Used for invoking all command-line programs
       #     name: Remove previous Image If Any keep last 2 version
@@ -97,14 +97,14 @@ jobs:
       #       if [[ "$(docker images mysampleimage:`expr ${CIRCLE_BUILD_NUM} - 3 ` -q)" != "" ]]; then
       #         docker image rm $(docker images mysampleimage:`expr ${CIRCLE_BUILD_NUM} - 3 ` -q)
       #       fi
-      - slack/notify:
-          event: fail
-          mentions: '@GauravBarakoti'
-          template: basic_fail_1
-      - slack/notify:
-          event: pass
-          template: success_tagged_deploy_1
-          mentions: '@GauravBarakoti'
+      # - slack/notify:
+      #     event: fail
+      #     mentions: '@GauravBarakoti'
+      #     template: basic_fail_1
+      # - slack/notify:
+      #     event: pass
+      #     template: success_tagged_deploy_1
+      #     mentions: '@GauravBarakoti'
   prod:
     machine: true
     resource_class: k8vhsqovhlv8kmbfzecxgd/redhat
@@ -170,14 +170,14 @@ workflows:
       - notify
           # context: slack-secrets
     # A job name that exists in your config.yml
-      - test-server
+      # - test-server
           # context: slack-secrets
-      - slack/on-hold:
-          requires:
-            - test-server
+      - slack/on-hold
+          # requires:
+          #   - test-server
       - pause_workflow:
           requires:
-            - test-server
+            # - test-server
             - slack/on-hold
           type: approval
       - prod:
