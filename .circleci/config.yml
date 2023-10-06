@@ -106,7 +106,9 @@ jobs:
           template: success_tagged_deploy_1
           mentions: '@GauravBarakoti'
   prod:
-    machine: true
+    machine: 
+        - true
+          user: root
     resource_class: k8vhsqovhlv8kmbfzecxgd/redhat
     steps:
       - checkout
