@@ -1,7 +1,7 @@
 version: 2.1
 # The version field is intended to be used in order to issue warnings for deprecation or breaking changes.
-# orbs:
-#   slack: circleci/slack@4.12.5
+orbs:
+  slack: circleci/slack@4.12.5
 jobs:
 # A Workflow is comprised of one or more uniquely named jobs.
   notify:
@@ -97,7 +97,6 @@ jobs:
             if [[ "$(docker images mysampleimage:`expr ${CIRCLE_BUILD_NUM} - 3 ` -q)" != "" ]]; then
               docker image rm $(docker images mysampleimage:`expr ${CIRCLE_BUILD_NUM} - 3 ` -q)
             fi
-
       - slack/notify:
           event: fail
           mentions: '@GauravBarakoti'
@@ -153,7 +152,6 @@ jobs:
             if [[ "$(docker images mysampleimage:`expr ${CIRCLE_BUILD_NUM} - 3 ` -q)" != "" ]]; then
               docker image rm $(docker images mysampleimage:`expr ${CIRCLE_BUILD_NUM} - 3 ` -q)
             fi
-
       - slack/notify:
           event: fail
           mentions: '@GauravBarakoti'
@@ -169,13 +167,12 @@ workflows:
   # The Workflows version field is used to issue warnings for deprecation or breaking changes. Required if config version is 2
   build-deploy:
     jobs:
-      - notify:
+      - notify
           # context: slack-secrets
     # A job name that exists in your config.yml
-      - test-server:
+      - test-server
           # context: slack-secrets
       - slack/on-hold:
-          # context: slack-secrets
           requires:
             - test-server
       - pause_workflow:
@@ -183,7 +180,7 @@ workflows:
             - test-server
             - slack/on-hold
           type: approval
-      - prod
+      - prod:
           requires:
             - pause_workflow
 
