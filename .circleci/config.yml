@@ -22,11 +22,29 @@ jobs:
               "blocks": [
                 {
                   "type": "section",
-                  "fields": [
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "Hi :wave:"
+                  }
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "Your pipeline is Triggered"
+                  }
+                },
+                {
+                  "type": "actions",
+                  "elements": [
                     {
-                      "type": "plain_text",
-                      "text": "**Your Pipeline is Triggered**",
-                      "emoji": true
+                      "type": "button",
+                      "text": {
+                        "type": "plain_text",
+                        "text": "Connect account",
+                        "emoji": true
+                      },
+                      "value": "click_me_123"
                     }
                   ]
                 }
@@ -91,7 +109,7 @@ jobs:
       #       fi
       - run: echo "Sending status"
       - run: echo "deploy my app"
-      - run: mk
+      # - run: mk
       - slack/notify:
           event: fail
           mentions: '@GauravBarakoti'
