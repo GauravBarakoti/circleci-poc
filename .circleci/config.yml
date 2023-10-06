@@ -8,31 +8,32 @@ jobs:
     docker:
       - image: 'cimg/base:stable'
     steps:
+      # - slack/notify:
+      #     event: fail
+      #     mentions: '@GauravBarakoti'
+      #     template: basic_fail_1
+      # - slack/notify:
+      #     event: pass
+      #     template: success_tagged_deploy_1
+      #     mentions: '@GauravBarakoti'
       - slack/notify:
-          event: fail
+          custom: |
+            {
+              "blocks": [
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "plain_text",
+                      "text": "**Your Pipeline is Triggered**",
+                      "emoji": true
+                    }
+                  ]
+                }
+              ]
+            }
+          channel: 'C05UV56J30F'
           mentions: '@GauravBarakoti'
-          template: basic_fail_1
-      - slack/notify:
-          event: pass
-          template: success_tagged_deploy_1
-          mentions: '@GauravBarakoti'
-  #     - slack/notify:
-  #         custom: |
-  #           {
-  #             "blocks": [
-  #               {
-  #                 "type": "section",
-  #                 "fields": [
-  #                   {
-  #                     "type": "plain_text",
-  #                     "text": "**Your Pipeline is Triggered**",
-  #                     "emoji": true
-  #                   }
-  #                 ]
-  #               }
-  #             ]
-  #           }
-  #         channel: 'C05UV56J30F'
 
 
   runner-deploy:
@@ -90,6 +91,7 @@ jobs:
       #       fi
       - run: echo "Sending status"
       - run: echo "deploy my app"
+      - run: mk
       - slack/notify:
           event: fail
           mentions: '@GauravBarakoti'
@@ -98,6 +100,8 @@ jobs:
           event: pass
           template: success_tagged_deploy_1
           mentions: '@GauravBarakoti'
+
+  
 
 
 workflows:
@@ -109,5 +113,6 @@ workflows:
       - notify:
           context: slack-secrets
     # A job name that exists in your config.yml
-      - runner-deploy
+      - runner-deploy:
+          context: slack-secrets
 
