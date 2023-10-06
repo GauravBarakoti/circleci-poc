@@ -133,4 +133,16 @@ workflows:
     # A job name that exists in your config.yml
       - runner-deploy:
           context: slack-secrets
+      - slack/on-hold:
+          context: slack-secrets
+          requires:
+            - runner-deploy
+      - pause_workflow:
+          requires:
+            - runner-deploy
+            - slack/on-hold
+          type: approval
+      # - my_deploy_job:
+      #     requires:
+      #       - pause_workflow
 
