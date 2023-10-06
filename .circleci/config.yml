@@ -115,14 +115,14 @@
 #     steps:
 #       - run: echo "Sending status"
 #       - run: echo "deploy my app"
-# #       - slack/notify:
-# #           event: fail
-# #           mentions: '@GauravBarakoti'
-# #           template: basic_fail_1
-# #       - slack/notify:
-# #           event: pass
-# #           template: success_tagged_deploy_1
-# #           mentions: '@GauravBarakoti'
+#       - slack/notify:
+#           event: fail
+#           mentions: '@GauravBarakoti'
+#           template: basic_fail_1
+#       - slack/notify:
+#           event: pass
+#           template: success_tagged_deploy_1
+#           mentions: '@GauravBarakoti'
 
 # workflows:
 # # Used for orchestrating all jobs.
@@ -150,6 +150,8 @@
 
 
 version: 2.1
+orbs:
+  slack: circleci/slack@4.12.5
 workflows:
   testing:
     jobs:
@@ -157,6 +159,14 @@ workflows:
 jobs:
   runner-test:
     machine: true
-    resource_class: k8vhsqovhlv8kmbfzecxgd/infra
+    resource_class: k8vhsqovhlv8kmbfzecxgd/redhat
     steps:
       - run: echo "Hi I'm on Runners!"
+      - slack/notify:
+          event: fail
+          mentions: '@GauravBarakoti'
+          template: basic_fail_1
+      - slack/notify:
+          event: pass
+          template: success_tagged_deploy_1
+          mentions: '@GauravBarakoti'
