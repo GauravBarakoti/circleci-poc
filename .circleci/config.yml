@@ -8,14 +8,6 @@ jobs:
     docker:
       - image: 'cimg/base:stable'
     steps:
-      # - slack/notify:
-      #     event: fail
-      #     mentions: '@GauravBarakoti'
-      #     template: basic_fail_1
-      # - slack/notify:
-      #     event: pass
-      #     template: success_tagged_deploy_1
-      #     mentions: '@GauravBarakoti'
       - slack/notify:
           custom: |
             {
@@ -54,7 +46,7 @@ jobs:
           mentions: '@GauravBarakoti'
 
 
-  runner-deploy:
+  test-server:
   # Name for a job, can be anything
     machine: true
     # The virtual machine image to use. 
@@ -109,7 +101,6 @@ jobs:
       #       fi
       - run: echo "Sending status"
       - run: echo "deploy my app"
-      # - run: mk
       - slack/notify:
           event: fail
           mentions: '@GauravBarakoti'
@@ -118,9 +109,20 @@ jobs:
           event: pass
           template: success_tagged_deploy_1
           mentions: '@GauravBarakoti'
-
-  
-
+  - prod:
+    machine: true
+    resource_class: k8vhsqovhlv8kmbfzecxgd/infra
+    steps:
+      - run: echo "Sending status"
+      - run: echo "deploy my app"
+      - slack/notify:
+          event: fail
+          mentions: '@GauravBarakoti'
+          template: basic_fail_1
+      - slack/notify:
+          event: pass
+          template: success_tagged_deploy_1
+          mentions: '@GauravBarakoti'
 
 workflows:
 # Used for orchestrating all jobs.
@@ -131,18 +133,18 @@ workflows:
       - notify:
           context: slack-secrets
     # A job name that exists in your config.yml
-      - runner-deploy:
+      - test-server:
           context: slack-secrets
       - slack/on-hold:
           context: slack-secrets
           requires:
-            - runner-deploy
+            - test-server
       - pause_workflow:
           requires:
-            - runner-deploy
+            - test-server
             - slack/on-hold
           type: approval
-      # - my_deploy_job:
-      #     requires:
-      #       - pause_workflow
+      - prod:
+          requires:
+            - pause_workflow
 
