@@ -180,9 +180,9 @@ workflows:
       #       # - test-server
       #       - slack/on-hold
       #     type: approval
-      - prod:
-          requires:
-            - pause_workflow
+      - prod
+          # requires:
+          #   - pause_workflow
 
 
 # version: 2.1
