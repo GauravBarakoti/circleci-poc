@@ -90,6 +90,14 @@ jobs:
       #       fi
       - run: echo "Sending status"
       - run: echo "deploy my app"
+      - slack/notify:
+          event: fail
+          mentions: '@GauravBarakoti'
+          template: basic_fail_1
+      - slack/notify:
+          event: pass
+          template: success_tagged_deploy_1
+          mentions: '@GauravBarakoti'
 
 
 workflows:
