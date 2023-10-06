@@ -172,14 +172,14 @@ workflows:
     # A job name that exists in your config.yml
       # - test-server
           # context: slack-secrets
-      - slack/on-hold
-          # requires:
-          #   - test-server
-      - pause_workflow:
-          requires:
-            # - test-server
-            - slack/on-hold
-          type: approval
+      # - slack/on-hold
+      #     # requires:
+      #     #   - test-server
+      # - pause_workflow:
+      #     requires:
+      #       # - test-server
+      #       - slack/on-hold
+      #     type: approval
       - prod:
           requires:
             - pause_workflow
