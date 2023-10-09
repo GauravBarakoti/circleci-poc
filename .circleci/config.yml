@@ -85,6 +85,7 @@ jobs:
       #       if [[ "$(docker images mysampleimage:`expr ${CIRCLE_BUILD_NUM} - 3 ` -q)" != "" ]]; then
       #         docker image rm $(docker images mysampleimage:`expr ${CIRCLE_BUILD_NUM} - 3 ` -q)
       #       fi
+      - run: echo "Hello!"
       - slack/notify:
           event: fail
           mentions: '@GauravBarakoti'
@@ -139,6 +140,7 @@ jobs:
       #       if [[ "$(docker images mysampleimage:`expr ${CIRCLE_BUILD_NUM} - 3 ` -q)" != "" ]]; then
       #         docker image rm $(docker images mysampleimage:`expr ${CIRCLE_BUILD_NUM} - 3 ` -q)
       #       fi
+      - run: echo "Hello!"
       - slack/notify:
           event: fail
           mentions: '@GauravBarakoti'
@@ -158,7 +160,8 @@ workflows:
       - notify
       - test-deployment
       - slack/on-hold
-          requires: test-deployment
+          requires:
+            - test-deployment
       - pause_workflow:
           requires:
             - test-deployment
