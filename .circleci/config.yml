@@ -158,8 +158,7 @@ workflows:
       - notify
       - test-deployment
       - slack/on-hold
-          requires:
-            - test-deployment
+          requires: test-deployment
       - pause_workflow:
           requires:
             - test-deployment
