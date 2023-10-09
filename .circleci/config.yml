@@ -159,7 +159,7 @@ workflows:
     # A job name that exists in your config.yml
       - notify
       - test-deployment
-      - slack/on-hold
+      - slack/on-hold:
           requires:
             - test-deployment
       - pause_workflow:
