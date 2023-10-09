@@ -16,14 +16,7 @@ jobs:
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": "Hi :wave:"
-                  }
-                },
-                {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": "Your pipeline is Triggered"
+                    "text": "Hi :wave: \n Your Pipeline Triggered... Verify it"
                   }
                 },
                 {
@@ -36,7 +29,7 @@ jobs:
                         "text": "Connect account",
                         "emoji": true
                       },
-                      "value": "click_me_123"
+                      "value": "https://app.circleci.com/pipelines/circleci/K8vHSQovhLv8kMBfzEcXGd/H5KJv41WutZFoxziJ3do2"
                     }
                   ]
                 }
@@ -44,59 +37,54 @@ jobs:
             }
           channel: 'C05UV56J30F'
           mentions: '@GauravBarakoti'
-  test-server:
+  test-deployment:
   # Name for a job, can be anything
     machine: true
     # The virtual machine image to use. 
     resource_class: k8vhsqovhlv8kmbfzecxgd/docker
     # The resource_class feature allows you to configure CPU and RAM resources for each job.
-    # working_directory: ~/my-app
+    working_directory: ~/my-app
     # Not Required, In which directory to run the steps. Will be interpreted as an absolute path. (default: .)
     steps:
     # A list of steps to be performed.
-      - checkout
-      # the checkout step will checkout project source code into the job’s working_directory
-      - run: 
-          name: Build Docker Image
-          command: docker build -t mysampleimage:${CIRCLE_BUILD_NUM} .
-          # fix this with image tag and keep 2 previous version of the image
-      - run: sudo systemctl reload apache2
-      - run:
-          name: Stop and Remove Container first
-          command: |
-            if [[ "$(docker ps --filter name=first -aq)" != "" ]]; then
-              sleep 5
-              docker container stop $(docker ps --filter name=first -aq)
-              sleep 5
-              docker container rm $(docker ps --filter name=first -aq)
-            fi
-      - run: 
-          name: Run Container 1
-          command: docker container run --name first -d -p 8081:5000 mysampleimage:${CIRCLE_BUILD_NUM}
-      - run: sudo systemctl reload apache2
-      - run:
-          name: Waiting to stable the app
-          command: sleep 15
-      - run:
-          name: Stop and Remove Container Second
-          command: |
-            if [[ "$(docker ps --filter name=second -aq)" != "" ]]; then
-              docker container stop $(docker ps --filter name=second -aq)
-              sleep 5
-              docker container rm $(docker ps --filter name=second -aq)
-            fi
-      - run: 
-          name: Run Container 2
-          command: docker container run --name second -d -p 8082:5000 mysampleimage:${CIRCLE_BUILD_NUM}
-      - run: sudo systemctl reload apache2
-      - run:
-      # Used for invoking all command-line programs
-          name: Remove previous Image If Any keep last 2 version
-          # Command to run via the shell
-          command: |
-            if [[ "$(docker images mysampleimage:`expr ${CIRCLE_BUILD_NUM} - 3 ` -q)" != "" ]]; then
-              docker image rm $(docker images mysampleimage:`expr ${CIRCLE_BUILD_NUM} - 3 ` -q)
-            fi
+      # - checkout
+      # # the checkout step will checkout project source code into the job’s working_directory
+      # - run: 
+      #     name: Build Docker Image
+      #     command: docker build -t mysampleimage:${CIRCLE_BUILD_NUM} .
+      #     # fix this with image tag and keep 2 previous version of the image
+      # - run: sudo systemctl reload apache2
+      # - run:
+      #     name: Stop and Remove Container first and launch new container
+      #     command: |
+      #       if [[ "$(docker ps --filter name=first -aq)" != "" ]]; then
+      #         docker container stop $(docker ps --filter name=first -aq)
+      #         sleep 2
+      #       else
+      #         docker container run --rm --name first -d -p 8081:5000 mysampleimage:${CIRCLE_BUILD_NUM}
+      #       fi
+      # - run: sudo systemctl reload apache2
+      # - run:
+      #     name: Waiting to stable the app
+      #     command: sleep 8
+      # - run:
+      #     name: Stop and Remove Container Second and launch new container
+      #     command: |
+      #       if [[ "$(docker ps --filter name=second -aq)" != "" ]]; then
+      #         docker container stop $(docker ps --filter name=second -aq)
+      #         sleep 2
+      #       else
+      #         docker container run --rm --name second -d -p 8082:5000 mysampleimage:${CIRCLE_BUILD_NUM}
+      #       fi
+      # - run: sudo systemctl reload apache2
+      # - run:
+      # # Used for invoking all command-line programs
+      #     name: Remove previous Image If Any keep last 2 version
+      #     # Command to run via the shell
+      #     command: |
+      #       if [[ "$(docker images mysampleimage:`expr ${CIRCLE_BUILD_NUM} - 3 ` -q)" != "" ]]; then
+      #         docker image rm $(docker images mysampleimage:`expr ${CIRCLE_BUILD_NUM} - 3 ` -q)
+      #       fi
       - slack/notify:
           event: fail
           mentions: '@GauravBarakoti'
@@ -105,53 +93,50 @@ jobs:
           event: pass
           template: success_tagged_deploy_1
           mentions: '@GauravBarakoti'
-  prod:
+  prod-deployment:
     machine: true
     resource_class: k8vhsqovhlv8kmbfzecxgd/redhat
+    working_directory: ~/my-app
     steps:
-      - checkout
-      # the checkout step will checkout project source code into the job’s working_directory
-      - run: 
-          name: Build Docker Image
-          command: docker build -t mysampleimage:${CIRCLE_BUILD_NUM} .
-          # fix this with image tag and keep 2 previous version of the image
-      - run: sudo systemctl reload httpd
-      - run:
-          name: Stop and Remove Container first
-          command: |
-            if [[ "$(docker ps --filter name=first -aq)" != "" ]]; then
-              sleep 5
-              docker container stop $(docker ps --filter name=first -aq)
-              sleep 5
-              docker container rm $(docker ps --filter name=first -aq)
-            fi
-      - run: 
-          name: Run Container 1
-          command: docker container run --name first -d -p 8081:5000 mysampleimage:${CIRCLE_BUILD_NUM}
-      - run: sudo systemctl reload httpd
-      - run:
-          name: Waiting to stable the app
-          command: sleep 15
-      - run:
-          name: Stop and Remove Container Second
-          command: |
-            if [[ "$(docker ps --filter name=second -aq)" != "" ]]; then
-              docker container stop $(docker ps --filter name=second -aq)
-              sleep 5
-              docker container rm $(docker ps --filter name=second -aq)
-            fi
-      - run: 
-          name: Run Container 2
-          command: docker container run --name second -d -p 8082:5000 mysampleimage:${CIRCLE_BUILD_NUM}
-      - run: sudo systemctl reload httpd
-      - run:
-      # Used for invoking all command-line programs
-          name: Remove previous Image If Any keep last 2 version
-          # Command to run via the shell
-          command: |
-            if [[ "$(docker images mysampleimage:`expr ${CIRCLE_BUILD_NUM} - 3 ` -q)" != "" ]]; then
-              docker image rm $(docker images mysampleimage:`expr ${CIRCLE_BUILD_NUM} - 3 ` -q)
-            fi
+      # - checkout
+      # # the checkout step will checkout project source code into the job’s working_directory
+      # - run: 
+      #     name: Build Docker Image
+      #     command: docker build -t mysampleimage:${CIRCLE_BUILD_NUM} .
+      #     # fix this with image tag and keep 2 previous version of the image
+      # - run: sudo systemctl reload httpd
+      # - run:
+      #     name: Stop and Remove Container first and launch new coantianer
+      #     command: |
+      #       if [[ "$(docker ps --filter name=first -aq)" != "" ]]; then
+      #         docker container stop $(docker ps --filter name=first -aq)
+      #         sleep 2
+      #       else
+      #         docker container run --rm --name first -d -p 8081:5000 mysampleimage:${CIRCLE_BUILD_NUM}
+      #       fi
+
+      # - run: sudo systemctl reload httpd
+      # - run:
+      #     name: Waiting to stable the app
+      #     command: sleep 8
+      # - run:
+      #     name: Stop and Remove Container Second and launch new container
+      #     command: |
+      #       if [[ "$(docker ps --filter name=second -aq)" != "" ]]; then
+      #         docker container stop $(docker ps --filter name=second -aq)
+      #         sleep 2
+      #       else
+      #         docker container run --rm --name second -d -p 8082:5000 mysampleimage:${CIRCLE_BUILD_NUM}
+      #       fi
+      # - run: sudo systemctl reload httpd
+      # - run:
+      # # Used for invoking all command-line programs
+      #     name: Remove previous Image If Any keep last 2 version
+      #     # Command to run via the shell
+      #     command: |
+      #       if [[ "$(docker images mysampleimage:`expr ${CIRCLE_BUILD_NUM} - 3 ` -q)" != "" ]]; then
+      #         docker image rm $(docker images mysampleimage:`expr ${CIRCLE_BUILD_NUM} - 3 ` -q)
+      #       fi
       - slack/notify:
           event: fail
           mentions: '@GauravBarakoti'
@@ -181,28 +166,3 @@ workflows:
       - prod:
           requires:
             - pause_workflow
-
-
-#test to check slack notification 
-
-# version: 2.1
-# orbs:
-#   slack: circleci/slack@4.12.5
-# workflows:
-#   testing:
-#     jobs:
-#       - runner-test
-# jobs:
-#   runner-test:
-#     machine: true
-#     resource_class: <Namespace>/<Resource Class Labe>
-#     steps:
-#       - run: echo "Hi I'm on Runners!"
-#       - slack/notify:
-#           event: fail
-#           mentions: '@GauravBarakoti'
-#           template: basic_fail_1
-#       - slack/notify:
-#           event: pass
-#           template: success_tagged_deploy_1
-#           mentions: '@GauravBarakoti'
