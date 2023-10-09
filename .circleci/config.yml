@@ -31,8 +31,8 @@ jobs:
                             "text": "Connect account",
                             "emoji": true
                           },
-                          "value": "https://app.circleci.com/pipelines/circleci/K8vHSQovhLv8kMBfzEcXGd/H5KJv41WutZFoxziJ3do2",
-                          "action_id": "button-action"
+                          "value": "https://app.circleci.com/pipelines/circleci/K8vHSQovhLv8kMBfzEcXGd/H5KJv41WutZFoxziJ3do2"
+
                         }
                       ]
                     }
