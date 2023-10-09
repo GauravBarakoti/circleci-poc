@@ -10,36 +10,36 @@ jobs:
     steps:
       - slack/notify:
           custom: |
-              {
-                "attachments": [
-                  {
-                    "color": "#f2c744",
-                    "blocks": [
-                      {
-                        "type": "section",
-                        "text": {
-                          "type": "mrkdwn",
-                          "text": "Hi :wave: \n Your Pipeline Triggered.. Verify it"
-                        }
-                      },
-                      {
-                        "type": "actions",
-                        "elements": [
-                          {
-                            "type": "button",
-                            "text": {
-                              "type": "plain_text",
-                              "text": "Connect account",
-                              "emoji": true
-                            },
-                            "value": "https://app.circleci.com/pipelines/circleci/K8vHSQovhLv8kMBfzEcXGd/H5KJv41WutZFoxziJ3do2"
-                          }
-                        ]
+            {
+              "attachments": [
+                {
+                  "blocks": [
+                    {
+                      "type": "section",
+                      "text": {
+                        "type": "mrkdwn",
+                        "text": "Hi :wave: \n Your Pipeline Triggered.. Verify it"
                       }
-                    ]
-                  }
-                ]
-              }
+                    },
+                    {
+                      "type": "actions",
+                      "elements": [
+                        {
+                          "type": "button",
+                          "text": {
+                            "type": "plain_text",
+                            "text": "Connect account",
+                            "emoji": true
+                          },
+                          "value": "https://app.circleci.com/pipelines/circleci/K8vHSQovhLv8kMBfzEcXGd/H5KJv41WutZFoxziJ3do2",
+                          "action_id": "button-action"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
           channel: 'C05UV56J30F'
           mentions: '@GauravBarakoti'
   test-deployment:
