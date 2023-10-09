@@ -47,44 +47,44 @@ jobs:
     # Not Required, In which directory to run the steps. Will be interpreted as an absolute path. (default: .)
     steps:
     # A list of steps to be performed.
-      # - checkout
-      # # the checkout step will checkout project source code into the job’s working_directory
-      # - run: 
-      #     name: Build Docker Image
-      #     command: docker build -t mysampleimage:${CIRCLE_BUILD_NUM} .
-      #     # fix this with image tag and keep 2 previous version of the image
-      # - run: sudo systemctl reload apache2
-      # - run:
-      #     name: Stop and Remove Container first and launch new container
-      #     command: |
-      #       if [[ "$(docker ps --filter name=first -aq)" != "" ]]; then
-      #         docker container stop $(docker ps --filter name=first -aq)
-      #         sleep 2
-      #       else
-      #         docker container run --rm --name first -d -p 8081:5000 mysampleimage:${CIRCLE_BUILD_NUM}
-      #       fi
-      # - run: sudo systemctl reload apache2
-      # - run:
-      #     name: Waiting to stable the app
-      #     command: sleep 8
-      # - run:
-      #     name: Stop and Remove Container Second and launch new container
-      #     command: |
-      #       if [[ "$(docker ps --filter name=second -aq)" != "" ]]; then
-      #         docker container stop $(docker ps --filter name=second -aq)
-      #         sleep 2
-      #       else
-      #         docker container run --rm --name second -d -p 8082:5000 mysampleimage:${CIRCLE_BUILD_NUM}
-      #       fi
-      # - run: sudo systemctl reload apache2
-      # - run:
-      # # Used for invoking all command-line programs
-      #     name: Remove previous Image If Any keep last 2 version
-      #     # Command to run via the shell
-      #     command: |
-      #       if [[ "$(docker images mysampleimage:`expr ${CIRCLE_BUILD_NUM} - 3 ` -q)" != "" ]]; then
-      #         docker image rm $(docker images mysampleimage:`expr ${CIRCLE_BUILD_NUM} - 3 ` -q)
-      #       fi
+      - checkout
+      # the checkout step will checkout project source code into the job’s working_directory
+      - run: 
+          name: Build Docker Image
+          command: docker build -t mysampleimage:${CIRCLE_BUILD_NUM} .
+          # fix this with image tag and keep 2 previous version of the image
+      - run: sudo systemctl reload apache2
+      - run:
+          name: Stop and Remove Container first and launch new container
+          command: |
+            if [[ "$(docker ps --filter name=first -aq)" != "" ]]; then
+              docker container stop $(docker ps --filter name=first -aq)
+              sleep 2
+            else
+              docker container run --rm --name first -d -p 8081:5000 mysampleimage:${CIRCLE_BUILD_NUM}
+            fi
+      - run: sudo systemctl reload apache2
+      - run:
+          name: Waiting to stable the app
+          command: sleep 8
+      - run:
+          name: Stop and Remove Container Second and launch new container
+          command: |
+            if [[ "$(docker ps --filter name=second -aq)" != "" ]]; then
+              docker container stop $(docker ps --filter name=second -aq)
+              sleep 2
+            else
+              docker container run --rm --name second -d -p 8082:5000 mysampleimage:${CIRCLE_BUILD_NUM}
+            fi
+      - run: sudo systemctl reload apache2
+      - run:
+      # Used for invoking all command-line programs
+          name: Remove previous Image If Any keep last 2 version
+          # Command to run via the shell
+          command: |
+            if [[ "$(docker images mysampleimage:`expr ${CIRCLE_BUILD_NUM} - 3 ` -q)" != "" ]]; then
+              docker image rm $(docker images mysampleimage:`expr ${CIRCLE_BUILD_NUM} - 3 ` -q)
+            fi
       - run: echo "Hello!"
       - slack/notify:
           event: fail
