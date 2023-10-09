@@ -11,30 +11,25 @@ jobs:
       - slack/notify:
           custom: |
             {
-              "attachments": [
+              "blocks": [
                 {
-                  "blocks": [
+                  "type": "header",
+                  "text": {
+                    "type": "plain_text",
+                    "text": "New request",
+                    "emoji": true
+                  }
+                },
+                {
+                  "type": "section",
+                  "fields": [
                     {
-                      "type": "section",
-                      "text": {
-                        "type": "mrkdwn",
-                        "text": "Hi :wave: \n Your Pipeline Triggered.. Verify it"
-                      }
+                      "type": "mrkdwn",
+                      "text": "*CircleCI:*\nTriggered"
                     },
                     {
-                      "type": "actions",
-                      "elements": [
-                        {
-                          "type": "button",
-                          "text": {
-                            "type": "plain_text",
-                            "text": "Connect account",
-                            "emoji": true
-                          },
-                          "value": "https://app.circleci.com/pipelines/circleci/K8vHSQovhLv8kMBfzEcXGd/H5KJv41WutZFoxziJ3do2"
-
-                        }
-                      ]
+                      "type": "mrkdwn",
+                      "text": "*Click here to check:*\n<https://app.circleci.com/pipelines/circleci/K8vHSQovhLv8kMBfzEcXGd/H5KJv41WutZFoxziJ3do2|Pipeline>"
                     }
                   ]
                 }
