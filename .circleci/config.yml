@@ -59,9 +59,11 @@ jobs:
           command: |
             if [[ "$(docker ps --filter name=first -aq)" != "" ]]; then
               docker container stop $(docker ps --filter name=first -aq)
+              docker container rm $(docker ps --filter name=first -aq)
+              docker container run --name first -d -p 8082:5000 mysampleimage:${CIRCLE_BUILD_NUM}
               sleep 2
             else
-              docker container run --rm --name first -d -p 8081:5000 mysampleimage:${CIRCLE_BUILD_NUM}
+              docker container run --name first -d -p 8081:5000 mysampleimage:${CIRCLE_BUILD_NUM}
             fi
       - run: sudo systemctl reload apache2
       - run:
@@ -72,9 +74,11 @@ jobs:
           command: |
             if [[ "$(docker ps --filter name=second -aq)" != "" ]]; then
               docker container stop $(docker ps --filter name=second -aq)
+              docker container rm $(docker ps --filter name=second -aq)
+              docker container run --name second -d -p 8082:5000 mysampleimage:${CIRCLE_BUILD_NUM}
               sleep 2
             else
-              docker container run --rm --name second -d -p 8082:5000 mysampleimage:${CIRCLE_BUILD_NUM}
+              docker container run --name second -d -p 8082:5000 mysampleimage:${CIRCLE_BUILD_NUM}
             fi
       - run: sudo systemctl reload apache2
       - run:
@@ -109,12 +113,14 @@ jobs:
       # - run:
       #     name: Stop and Remove Container first and launch new coantianer
       #     command: |
-      #       if [[ "$(docker ps --filter name=first -aq)" != "" ]]; then
-      #         docker container stop $(docker ps --filter name=first -aq)
-      #         sleep 2
-      #       else
-      #         docker container run --rm --name first -d -p 8081:5000 mysampleimage:${CIRCLE_BUILD_NUM}
-      #       fi
+            # if [[ "$(docker ps --filter name=first -aq)" != "" ]]; then
+            #   docker container stop $(docker ps --filter name=first -aq)
+            #   docker container rm $(docker ps --filter name=first -aq)
+            #   docker container run --name first -d -p 8082:5000 mysampleimage:${CIRCLE_BUILD_NUM}
+            #   sleep 2
+            # else
+            #   docker container run --name first -d -p 8081:5000 mysampleimage:${CIRCLE_BUILD_NUM}
+            # fi
 
       # - run: sudo systemctl reload httpd
       # - run:
@@ -123,12 +129,14 @@ jobs:
       # - run:
       #     name: Stop and Remove Container Second and launch new container
       #     command: |
-      #       if [[ "$(docker ps --filter name=second -aq)" != "" ]]; then
-      #         docker container stop $(docker ps --filter name=second -aq)
-      #         sleep 2
-      #       else
-      #         docker container run --rm --name second -d -p 8082:5000 mysampleimage:${CIRCLE_BUILD_NUM}
-      #       fi
+            # if [[ "$(docker ps --filter name=second -aq)" != "" ]]; then
+            #   docker container stop $(docker ps --filter name=second -aq)
+            #   docker container rm $(docker ps --filter name=second -aq)
+            #   docker container run --name second -d -p 8082:5000 mysampleimage:${CIRCLE_BUILD_NUM}
+            #   sleep 2
+            # else
+            #   docker container run --name second -d -p 8082:5000 mysampleimage:${CIRCLE_BUILD_NUM}
+            # fi
       # - run: sudo systemctl reload httpd
       # - run:
       # # Used for invoking all command-line programs
