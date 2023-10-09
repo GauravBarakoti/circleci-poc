@@ -36,7 +36,6 @@ jobs:
               ]
             }
           channel: 'C05UV56J30F'
-          mentions: '@GauravBarakoti'
   test-deployment:
   # Name for a job, can be anything
     machine: true
