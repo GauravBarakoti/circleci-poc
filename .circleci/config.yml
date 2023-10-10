@@ -100,7 +100,7 @@ jobs:
     working_directory: ~/my-app
     # Not Required, In which directory to run the steps. Will be interpreted as an absolute path. (default: .)
     steps:
-    A list of steps to be performed.
+    # A list of steps to be performed.
       - checkout
       # the checkout step will checkout project source code into the job’s working_directory
       - run: 
