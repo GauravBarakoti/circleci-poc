@@ -97,7 +97,7 @@ jobs:
     # The virtual machine image to use. 
     resource_class: k8vhsqovhlv8kmbfzecxgd/docker
     # The resource_class feature allows you to configure CPU and RAM resources for each job.
-    # working_directory: ~/my-app
+    working_directory: ~/test_server
     # Not Required, In which directory to run the steps. Will be interpreted as an absolute path. (default: .)
     steps:
     # A list of steps to be performed.
@@ -143,7 +143,8 @@ jobs:
       #       if [[ "$(docker images mysampleimage:`expr ${CIRCLE_BUILD_NUM} - 3 ` -q)" != "" ]]; then
       #         docker image rm $(docker images mysampleimage:`expr ${CIRCLE_BUILD_NUM} - 3 ` -q)
       #       fi
-      - run: curl localhost > index.html
+      - run: bash demo.sh  | cat > index.html
+      - run: cat index.html
       - slack/notify:
           event: pass
           mentions: "@gauravbarakoti"
