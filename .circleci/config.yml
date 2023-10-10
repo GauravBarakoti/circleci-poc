@@ -145,11 +145,7 @@ jobs:
       #       fi
       - run: bash demo.sh  | cat > index.html
       - run: cat index.html
-      - run: curl -F token=xoxb-929266509623-5997524450356-CFIenHww1TgLeLkYZ2XHtXLK \
-    -F external_id=index.html \
-    -F channels=C05UV56J30F \
-    https://slack.com/api/files.remote.share
-
+      - run: curl -F file=index.html -F channels=C05UV56J30F -H "Authorization: Bearer xoxb-929266509623-5997524450356-CFIenHww1TgLeLkYZ2XHtXLK" https://slack.com/api/files.upload
 
       - slack/notify:
           event: pass
