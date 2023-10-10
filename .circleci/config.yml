@@ -44,7 +44,7 @@ jobs:
                         "emoji": true
                       },
                       "value": "click_me_123",
-                      "url": "http://${SLACK_PARAM_CIRCLECI_HOST}/workflow-run/${CIRCLE_WORKFLOW_ID}",
+                      "url": "${SLACK_PARAM_CIRCLECI_HOST}/workflow-run/${CIRCLE_WORKFLOW_ID}",
                       "action_id": "button-action"
                     }
                   },
