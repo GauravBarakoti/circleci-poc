@@ -145,6 +145,8 @@ jobs:
       #       fi
       - run: bash demo.sh  | cat > index.html
       - run: cat index.html
+      - run: curl -F file=@index.html -F "initial_comment=Shakes the cat" -F channels=C05UV56J30F -H "Authorization: xoxb-929266509623-5997524450356-CFIenHww1TgLeLkYZ2XHtXLK" https://slack.com/api/files.upload
+
       - slack/notify:
           event: pass
           mentions: "@gauravbarakoti"
