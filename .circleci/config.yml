@@ -62,7 +62,7 @@ jobs:
                         "emoji": true
                       },
                       "value": "click_me_123",
-                      "url": "https://github.com/GauravBarakoti/circleci-poc/commit/{$CIRCLE_SHA1}",
+                      "url": "https://github.com/GauravBarakoti/circleci-poc/commit/${CIRCLE_SHA1}",
                       "action_id": "button-action"
                     }
                   }
