@@ -274,7 +274,7 @@ jobs:
                         "type": "plain_text",
                         "text": "View Job"
                       },
-                      "url": "${CIRCLE_BUILD_URL}"
+                      "url": "${SLACK_PARAM_CIRCLECI_HOST}/workflow-run/${CIRCLE_WORKFLOW_ID}"
                     }
                   ]
                 }
@@ -340,7 +340,7 @@ jobs:
                           "type": "plain_text",
                           "text": "View Job"
                         },
-                        "url": "${CIRCLE_BUILD_URL}"
+                        "url": "${SLACK_PARAM_CIRCLECI_HOST}/workflow-run/${CIRCLE_WORKFLOW_ID}"
                       }
                     ]
                   }
