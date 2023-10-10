@@ -40,11 +40,29 @@ jobs:
                       "type": "button",
                       "text": {
                         "type": "plain_text",
-                        "text": "Click Me",
+                        "text": "CircleCI Pipeline",
                         "emoji": true
                       },
                       "value": "click_me_123",
-                      "url": "https://app.circleci.com/pipelines/circleci/K8vHSQovhLv8kMBfzEcXGd/H5KJv41WutZFoxziJ3do2",
+                      "url": "http://${SLACK_PARAM_CIRCLECI_HOST}/workflow-run/${CIRCLE_WORKFLOW_ID}",
+                      "action_id": "button-action"
+                    }
+                  },
+                  {
+                    "type": "section",
+                    "text": {
+                      "type": "mrkdwn",
+                      "text": "Click to check commit details."
+                    },
+                    "accessory": {
+                      "type": "button",
+                      "text": {
+                        "type": "plain_text",
+                        "text": "Git Commit",
+                        "emoji": true
+                      },
+                      "value": "click_me_123",
+                      "url": "https://github.com/GauravBarakoti/circleci-poc/commit/{$CIRCLE_SHA1}",
                       "action_id": "button-action"
                     }
                   }
@@ -106,6 +124,7 @@ jobs:
       # - run: echo "Hello!"
       # - slack/notify:
       #     event: pass
+      #     mentions: Gaurav
       #     custom: |
       #       {
       #         "blocks": [
@@ -113,7 +132,7 @@ jobs:
       #             "type": "header",
       #             "text": {
       #               "type": "plain_text",
-      #               "text": "Test Server Deployment Successfully! :tada:",
+      #               "text": "Job Succeeded. :white_check_mark:",
       #               "emoji": true
       #             }
       #           },
@@ -122,45 +141,124 @@ jobs:
       #             "fields": [
       #               {
       #                 "type": "mrkdwn",
-      #                 "text": "*Testing:*\nTest cases"
+      #                 "text": "*Job*: ${CIRCLE_JOB}"
+      #               }
+      #             ]
+      #           },
+      #           {
+      #             "type": "section",
+      #             "fields": [
+      #               {
+      #                 "type": "mrkdwn",
+      #                 "text": "*Branch*: $CIRCLE_BRANCH"
+      #               },
+      #               {
+      #                 "type": "mrkdwn",
+      #                 "text": "*Commit*: $CIRCLE_SHA1"
+      #               },
+      #               {
+      #                 "type": "mrkdwn",
+      #                 "text": "*Author*: $CIRCLE_USERNAME"
+      #               }
+      #             ],
+      #             "accessory": {
+      #               "type": "image",
+      #               "image_url": "https://assets.brandfolder.com/otz5mn-bw4j2w-6jzqo8/original/circle-logo-badge-black.png",
+      #               "alt_text": "CircleCI logo"
+      #             }
+      #           },
+      #           {
+      #             "type": "section",
+      #             "fields": [
+      #               {
+      #                 "type": "mrkdwn",
+      #                 "text": "*Mentions*: $SLACK_PARAM_MENTIONS"
+      #               }
+      #             ]
+      #           },
+      #           {
+      #             "type": "actions",
+      #             "elements": [
+      #               {
+      #                 "type": "button",
+      #                 "action_id": "basic_success_view",
+      #                 "text": {
+      #                   "type": "plain_text",
+      #                   "text": "View Job"
+      #                 },
+      #                 "url": "${SLACK_PARAM_CIRCLECI_HOST}/workflow-run/${CIRCLE_WORKFLOW_ID}"
       #               }
       #             ]
       #           }
       #         ]
       #       }
       # - slack/notify:
-            # custom: |
-            #   {
-            #     "blocks": [
-            #       {
-            #         "type": "header",
-            #         "text": {
-            #           "type": "plain_text",
-            #           "text": "Test-Server Job FAILED! :red_circle:",
-            #           "emoji": true
-            #         }
-            #       },
-            #       {
-            #         "type": "section",
-            #         "block_id": "sectionBlockWithLinkButton",
-            #         "text": {
-            #           "type": "mrkdwn",
-            #           "text": "Click Here to check:"
-            #         },
-            #         "accessory": {
-            #           "type": "button",
-            #           "text": {
-            #             "type": "plain_text",
-            #             "text": "Click Me",
-            #             "emoji": true
-            #           },
-            #           "value": "click_me_123",
-            #           "url": "https://app.circleci.com/pipelines/circleci/K8vHSQovhLv8kMBfzEcXGd/H5KJv41WutZFoxziJ3do2",
-            #           "action_id": "button-action"
-            #         }
-            #       }
-            #     ]
-            #   }
+      #     event: fail
+      #     mentions: GauravBarakoti
+      #     custom: |
+      #         {
+      #           "blocks": [
+      #             {
+      #               "type": "header",
+      #               "text": {
+      #                 "type": "plain_text",
+      #                 "text": "Job Failed. :red_circle:",
+      #                 "emoji": true
+      #               }
+      #             },
+      #             {
+      #               "type": "section",
+      #               "fields": [
+      #                 {
+      #                   "type": "mrkdwn",
+      #                   "text": "*Job*: ${CIRCLE_JOB}"
+      #                 }
+      #               ]
+      #             },
+      #             {
+      #               "type": "section",
+      #               "fields": [
+      #                 {
+      #                   "type": "mrkdwn",
+      #                   "text": "*Branch*: ${CIRCLE_BRANCH}"
+      #                 },
+      #                 {
+      #                   "type": "mrkdwn",
+      #                   "text": "*Author*: ${CIRCLE_USERNAME}"
+      #                 }
+      #               ],
+      #               "accessory": {
+      #                 "type": "image",
+      #                 "image_url": "https://assets.brandfolder.com/otz5mn-bw4j2w-6jzqo8/original/circle-logo-badge-black.png",
+      #                 "alt_text": "CircleCI logo"
+      #               }
+      #             },
+      #             {
+      #               "type": "section",
+      #               "fields": [
+      #                 {
+      #                   "type": "mrkdwn",
+      #                   "text": "*Mentions*: $SLACK_PARAM_MENTIONS"
+      #                 }
+      #               ]
+      #             },
+      #             {
+      #               "type": "actions",
+      #               "elements": [
+      #                 {
+      #                   "type": "button",
+      #                   "action_id": "basic_fail_view",
+      #                   "text": {
+      #                     "type": "plain_text",
+      #                     "text": "View Job"
+      #                   },
+      #                   "url": "${SLACK_PARAM_CIRCLECI_HOST}/workflow-run/${CIRCLE_WORKFLOW_ID}"
+      #                 }
+      #               ]
+      #             }
+      #           ]
+      #         }
+
   prod-deployment:
     machine: true
     resource_class: k8vhsqovhlv8kmbfzecxgd/redhat
@@ -274,7 +372,7 @@ jobs:
                         "type": "plain_text",
                         "text": "View Job"
                       },
-                      "url": "${SLACK_PARAM_CIRCLECI_HOST}/workflow-run/${CIRCLE_WORKFLOW_ID}/jobs/${CIRCLE_BUILD_NUM}"
+                      "url": "${SLACK_PARAM_CIRCLECI_HOST}/workflow-run/${CIRCLE_WORKFLOW_ID}"
                     }
                   ]
                 }
@@ -340,7 +438,7 @@ jobs:
                           "type": "plain_text",
                           "text": "View Job"
                         },
-                        "url": "${SLACK_PARAM_CIRCLECI_HOST}/workflow-run/${CIRCLE_WORKFLOW_ID}/jobs/${CIRCLE_BUILD_NUM}"
+                        "url": "${SLACK_PARAM_CIRCLECI_HOST}/workflow-run/${CIRCLE_WORKFLOW_ID}"
                       }
                     ]
                   }
