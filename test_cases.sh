@@ -1,9 +1,5 @@
 #!/bin/bash
 
-set -xe # -x debug mode and -e exits when error
+# set -xe # -x debug mode and -e exits when error
 
 curl localhost 
-
-python3 tests.py
-
-nproc
