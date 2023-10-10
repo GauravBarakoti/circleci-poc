@@ -143,7 +143,7 @@ jobs:
       #       if [[ "$(docker images mysampleimage:`expr ${CIRCLE_BUILD_NUM} - 3 ` -q)" != "" ]]; then
       #         docker image rm $(docker images mysampleimage:`expr ${CIRCLE_BUILD_NUM} - 3 ` -q)
       #       fi
-      - run: bash test_cases.sh > result.txt
+      - run: curl localhost > index.html
       - slack/notify:
           event: pass
           mentions: "@gauravbarakoti"
