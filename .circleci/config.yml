@@ -90,9 +90,9 @@ jobs:
                   }
                 ]
               }
-          channel: 'C05UV56J30F'
+          channel: ${CHANNEL}
       - run: curl localhost  2>&1 | tee ${FILENAME} 
-      - run: curl -F file=@${FILENAME} -F "initial_comment=test for upload" -F channels=${CHANNEL} -H "Authorization: ${TOKEN}" https://slack.com/api/files.upload
+      - run: curl -F file=@${FILENAME} -F "initial_comment=test for upload" -F channels=${CHANNEL} -H "Authorization: Bearer ${TOKEN}" https://slack.com/api/files.upload
 
   # test-deployment:
   # # Name for a job, can be anything
