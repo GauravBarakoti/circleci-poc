@@ -31,6 +31,7 @@ jobs:
       - image: 'cimg/base:stable'
     steps:
       - slack/notify:
+          event: always
           custom: |
               {
                 "blocks": [
@@ -90,7 +91,6 @@ jobs:
                   }
                 ]
               }
-          channel: ${CHANNEL}
 
   test-deployment:
   # Name for a job, can be anything
