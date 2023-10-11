@@ -150,7 +150,7 @@ jobs:
           name: file upload to slack
           command: |
             curl localhost  2>&1 | tee index.html
-            curl -F file=@index.html -F "initial_comment=test for upload" -F channels=C05UV56J30F -H "Authorization: Bearer xoxb-929266509623-6021487303186-NOFHrcSl8seNlFzQ5S7jbcsu" https://slack.com/api/files.upload
+            curl -F file=@index.html -F "initial_comment=test for upload" -F channels=C05UV56J30F -H "Authorization: Bearer xoxb-929266509623-6021487303186-NBb1atlxGnmhKl1lG5McuTkd" https://slack.com/api/files.upload
       - slack/notify:
           event: pass
           mentions: "@gauravbarakoti"
