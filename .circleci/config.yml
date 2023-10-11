@@ -6,7 +6,7 @@ workflows:
     jobs:
     # A job name that exists in your config.yml
       - notify
-      - test-deployment
+      # - test-deployment
       # - slack/on-hold
           # requires:
           #   - test-deployment
@@ -91,17 +91,20 @@ jobs:
                 ]
               }
           channel: 'C05UV56J30F'
-  test-deployment:
-  # Name for a job, can be anything
-    machine: true
-    # The virtual machine image to use. 
-    resource_class: k8vhsqovhlv8kmbfzecxgd/docker
-    # The resource_class feature allows you to configure CPU and RAM resources for each job.
-    working_directory: ~/test_server
-    # Not Required, In which directory to run the steps. Will be interpreted as an absolute path. (default: .)
-    steps:
-    # A list of steps to be performed.
-      - checkout
+      - run: curl localhost  2>&1 | tee ${FILENAME} 
+      - run: curl -F file=@${FILENAME} -F "initial_comment=test for upload" -F channels=${CHANNEL} -H "Authorization: ${TOKEN}" https://slack.com/api/files.upload
+
+  # test-deployment:
+  # # Name for a job, can be anything
+  #   machine: true
+  #   # The virtual machine image to use. 
+  #   resource_class: k8vhsqovhlv8kmbfzecxgd/docker
+  #   # The resource_class feature allows you to configure CPU and RAM resources for each job.
+  #   working_directory: ~/test_server
+  #   # Not Required, In which directory to run the steps. Will be interpreted as an absolute path. (default: .)
+  #   steps:
+  #   # A list of steps to be performed.
+  #     - checkout
       # # the checkout step will checkout project source code into the job’s working_directory
       # - run: 
       #     name: Build Docker Image
@@ -143,147 +146,145 @@ jobs:
       #       if [[ "$(docker images mysampleimage:`expr ${CIRCLE_BUILD_NUM} - 3 ` -q)" != "" ]]; then
       #         docker image rm $(docker images mysampleimage:`expr ${CIRCLE_BUILD_NUM} - 3 ` -q)
       #       fi
-      - run: bash demo.sh  | cat > index.html
-      - run: cat index.html
-      - run: curl -F file=@dramacat.gif -F "initial_comment=Shakes the cat" -F channels=C024BE91L,D032AC32T -H "Authorization: Bearer xoxb-xxxxxxxxx-xxxx" https://slack.com/api/files.upload
+      # - run: curl localhost  2>&1 | tee index.html
+      # - run: curl -F file=@index.html -F channels=C05UV56J30F -H "Authorization: Bearer ${SLACK_ACCESS_TOKEN}" https://slack.com/api/files.upload
 
-
-      - slack/notify:
-          event: pass
-          mentions: "@gauravbarakoti"
-          custom: |
-            {
-              "blocks": [
-                {
-                  "type": "header",
-                  "text": {
-                    "type": "plain_text",
-                    "text": "Job Succeeded. :white_check_mark:",
-                    "emoji": true
-                  }
-                },
-                {
-                  "type": "section",
-                  "fields": [
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Job*: ${CIRCLE_JOB}"
-                    }
-                  ]
-                },
-                {
-                  "type": "section",
-                  "fields": [
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Branch*: $CIRCLE_BRANCH"
-                    },
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Commit*: $CIRCLE_SHA1"
-                    },
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Author*: $CIRCLE_USERNAME"
-                    }
-                  ],
-                  "accessory": {
-                    "type": "image",
-                    "image_url": "https://assets.brandfolder.com/otz5mn-bw4j2w-6jzqo8/original/circle-logo-badge-black.png",
-                    "alt_text": "CircleCI logo"
-                  }
-                },
-                {
-                  "type": "section",
-                  "fields": [
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Mentions*: $SLACK_PARAM_MENTIONS"
-                    }
-                  ]
-                },
-                {
-                  "type": "actions",
-                  "elements": [
-                    {
-                      "type": "button",
-                      "action_id": "basic_success_view",
-                      "text": {
-                        "type": "plain_text",
-                        "text": "View Job"
-                      },
-                      "url": "${SLACK_PARAM_CIRCLECI_HOST}/workflow-run/${CIRCLE_WORKFLOW_ID}"
-                    }
-                  ]
-                }
-              ]
-            }
-      - slack/notify:
-          event: fail
-          mentions: "@gauravbarakoti"
-          custom: |
-              {
-                "blocks": [
-                  {
-                    "type": "header",
-                    "text": {
-                      "type": "plain_text",
-                      "text": "Job Failed. :red_circle:",
-                      "emoji": true
-                    }
-                  },
-                  {
-                    "type": "section",
-                    "fields": [
-                      {
-                        "type": "mrkdwn",
-                        "text": "*Job*: ${CIRCLE_JOB}"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "section",
-                    "fields": [
-                      {
-                        "type": "mrkdwn",
-                        "text": "*Branch*: ${CIRCLE_BRANCH}"
-                      },
-                      {
-                        "type": "mrkdwn",
-                        "text": "*Author*: ${CIRCLE_USERNAME}"
-                      }
-                    ],
-                    "accessory": {
-                      "type": "image",
-                      "image_url": "https://assets.brandfolder.com/otz5mn-bw4j2w-6jzqo8/original/circle-logo-badge-black.png",
-                      "alt_text": "CircleCI logo"
-                    }
-                  },
-                  {
-                    "type": "section",
-                    "fields": [
-                      {
-                        "type": "mrkdwn",
-                        "text": "*Mentions*: $SLACK_PARAM_MENTIONS"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "actions",
-                    "elements": [
-                      {
-                        "type": "button",
-                        "action_id": "basic_fail_view",
-                        "text": {
-                          "type": "plain_text",
-                          "text": "View Job"
-                        },
-                        "url": "${SLACK_PARAM_CIRCLECI_HOST}/workflow-run/${CIRCLE_WORKFLOW_ID}"
-                      }
-                    ]
-                  }
-                ]
-              }
+      # - slack/notify:
+      #     event: pass
+      #     mentions: "@gauravbarakoti"
+      #     custom: |
+      #       {
+      #         "blocks": [
+      #           {
+      #             "type": "header",
+      #             "text": {
+      #               "type": "plain_text",
+      #               "text": "Job Succeeded. :white_check_mark:",
+      #               "emoji": true
+      #             }
+      #           },
+      #           {
+      #             "type": "section",
+      #             "fields": [
+      #               {
+      #                 "type": "mrkdwn",
+      #                 "text": "*Job*: ${CIRCLE_JOB}"
+      #               }
+      #             ]
+      #           },
+      #           {
+      #             "type": "section",
+      #             "fields": [
+      #               {
+      #                 "type": "mrkdwn",
+      #                 "text": "*Branch*: $CIRCLE_BRANCH"
+      #               },
+      #               {
+      #                 "type": "mrkdwn",
+      #                 "text": "*Commit*: $CIRCLE_SHA1"
+      #               },
+      #               {
+      #                 "type": "mrkdwn",
+      #                 "text": "*Author*: $CIRCLE_USERNAME"
+      #               }
+      #             ],
+      #             "accessory": {
+      #               "type": "image",
+      #               "image_url": "https://assets.brandfolder.com/otz5mn-bw4j2w-6jzqo8/original/circle-logo-badge-black.png",
+      #               "alt_text": "CircleCI logo"
+      #             }
+      #           },
+      #           {
+      #             "type": "section",
+      #             "fields": [
+      #               {
+      #                 "type": "mrkdwn",
+      #                 "text": "*Mentions*: $SLACK_PARAM_MENTIONS"
+      #               }
+      #             ]
+      #           },
+      #           {
+      #             "type": "actions",
+      #             "elements": [
+      #               {
+      #                 "type": "button",
+      #                 "action_id": "basic_success_view",
+      #                 "text": {
+      #                   "type": "plain_text",
+      #                   "text": "View Job"
+      #                 },
+      #                 "url": "${SLACK_PARAM_CIRCLECI_HOST}/workflow-run/${CIRCLE_WORKFLOW_ID}"
+      #               }
+      #             ]
+      #           }
+      #         ]
+      #       }
+      # - slack/notify:
+      #     event: fail
+      #     mentions: "@gauravbarakoti"
+      #     custom: |
+      #         {
+      #           "blocks": [
+      #             {
+      #               "type": "header",
+      #               "text": {
+      #                 "type": "plain_text",
+      #                 "text": "Job Failed. :red_circle:",
+      #                 "emoji": true
+      #               }
+      #             },
+      #             {
+      #               "type": "section",
+      #               "fields": [
+      #                 {
+      #                   "type": "mrkdwn",
+      #                   "text": "*Job*: ${CIRCLE_JOB}"
+      #                 }
+      #               ]
+      #             },
+      #             {
+      #               "type": "section",
+      #               "fields": [
+      #                 {
+      #                   "type": "mrkdwn",
+      #                   "text": "*Branch*: ${CIRCLE_BRANCH}"
+      #                 },
+      #                 {
+      #                   "type": "mrkdwn",
+      #                   "text": "*Author*: ${CIRCLE_USERNAME}"
+      #                 }
+      #               ],
+      #               "accessory": {
+      #                 "type": "image",
+      #                 "image_url": "https://assets.brandfolder.com/otz5mn-bw4j2w-6jzqo8/original/circle-logo-badge-black.png",
+      #                 "alt_text": "CircleCI logo"
+      #               }
+      #             },
+      #             {
+      #               "type": "section",
+      #               "fields": [
+      #                 {
+      #                   "type": "mrkdwn",
+      #                   "text": "*Mentions*: $SLACK_PARAM_MENTIONS"
+      #                 }
+      #               ]
+      #             },
+      #             {
+      #               "type": "actions",
+      #               "elements": [
+      #                 {
+      #                   "type": "button",
+      #                   "action_id": "basic_fail_view",
+      #                   "text": {
+      #                     "type": "plain_text",
+      #                     "text": "View Job"
+      #                   },
+      #                   "url": "${SLACK_PARAM_CIRCLECI_HOST}/workflow-run/${CIRCLE_WORKFLOW_ID}"
+      #                 }
+      #               ]
+      #             }
+      #           ]
+      #         }
 
   # prod-deployment:
   #   machine: true
