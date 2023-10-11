@@ -6,7 +6,7 @@ workflows:
     jobs:
     # A job name that exists in your config.yml
       - notify
-      # - test-deployment
+      - test-deployment
       # - slack/on-hold
           # requires:
           #   - test-deployment
@@ -91,11 +91,6 @@ jobs:
                 ]
               }
           channel: ${CHANNEL}
-      - run:
-          name: file upload to slack
-          command: |
-            curl localhost  2>&1 | tee ${FILENAME} 
-            curl -F file=@index.html -F "initial_comment=test for upload" -F channels=C05UV56J30F -H "Authorization: Bearer xoxb-929266509623-6014663266054-OxE7lSSje6b1aLIEhPzqjQ4A" https://slack.com/api/files.upload
 
   test-deployment:
   # Name for a job, can be anything
